@@ -8,9 +8,14 @@ import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
 import { MapPage } from '../pages/map/map';
+import { NovaDenunciaPage } from '../pages/nova-denuncia/nova-denuncia';
+import { UserFeedPage } from '../pages/user-feed/user-feed';
+import { ReportDetailModalPage } from '../pages/report-detail-modal/report-detail-modal';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+
+import { Geolocation } from '@ionic-native/geolocation';
 
 @NgModule({
   declarations: [
@@ -19,7 +24,10 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     ContactPage,
     HomePage,
     TabsPage,
-    MapPage
+    MapPage,
+    NovaDenunciaPage,
+    UserFeedPage,
+    ReportDetailModalPage
   ],
   imports: [
     BrowserModule,
@@ -32,11 +40,15 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     ContactPage,
     HomePage,
     TabsPage,
-    MapPage
+    MapPage,
+    NovaDenunciaPage,
+    UserFeedPage,
+    ReportDetailModalPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
+    Geolocation,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

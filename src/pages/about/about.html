@@ -7,5 +7,15 @@
 </ion-header>
 
 <ion-content padding>
-
+  <ul>
+    <li *ngFor="let denuncia of denuncias">
+      {{ denuncia.titulo }}
+      <button ion-button (click)="getComentarios(denuncia)">click</button>
+      <ul *ngIf="comentarios && denunciaAbertaId === denuncia.id">
+        <li *ngFor="let comentario of comentarios"> 
+          {{comentario.texto}} 
+        </li>
+      </ul>
+    </li>
+  </ul>
 </ion-content>

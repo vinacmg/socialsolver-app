@@ -1,0 +1,58 @@
+<!--
+  Generated template for the UserFeedPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar color="orange">
+    <button ion-button menuToggle icon-only><ion-icon name="menu"></ion-icon></button>
+    <ion-title>SocialSolver</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+	<ion-card *ngFor="let report of reportList">
+		
+		<ion-item>
+			<ion-avatar item-start>
+				<img src="../../assets/imgs/logo.png">
+			</ion-avatar>
+			<h2>Nome do cidadão</h2>
+			<p>{{ report.data | date: 'dd/MM/yyyy H:mm' }}</p>
+		</ion-item>
+
+		<!-- <img src="../../assets/imgs/logo.png"> -->
+
+		<ion-card-content>
+			<ion-card-title>{{ report.titulo }}</ion-card-title>
+			<p>{{ report.descricao }}</p>
+			<ion-badge color="orange" *ngFor="let categoria of report.categorias" style="margin-right: 10px;">
+				{{ categoria }}
+			</ion-badge>
+		</ion-card-content>
+
+		<ion-row>
+			<ion-col>
+				<button ion-button icon-left clear small color="orange">
+					<ion-icon name="thumbs-up"></ion-icon>
+					<div>{{ report.ups }}</div>
+				</button>
+			</ion-col>
+			<ion-col>
+				<button ion-button icon-left clear small color="orange">
+					<ion-icon name="text"></ion-icon>
+					<div>2</div>
+				</button>
+			</ion-col>
+			<ion-col center text-center>
+				<button ion-button icon-left clear small color="orange" (click)="presentReportDetail(report)">
+					<ion-icon name="eye"></ion-icon>
+				</button>
+			</ion-col>
+		</ion-row>
+
+	</ion-card>
+
+</ion-content>

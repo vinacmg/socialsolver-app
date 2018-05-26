@@ -1,0 +1,80 @@
+<!--
+  Generated template for the ReportDetailModalPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar color="orange">
+    <button color="light" small ion-button clear icon-only (click)="dismiss()">
+    	<ion-icon name="close"></ion-icon>
+    </button>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+	<ion-card>
+		<img src="../../assets/imgs/logo.png">
+		<ion-card-content>
+			<ion-card-title>{{ report.titulo }}</ion-card-title>
+			<p>{{ report.descricao }}</p>
+		</ion-card-content>
+		<ion-row>
+			<ion-col>
+				<button ion-button icon-left clear small>
+					<ion-icon color="primary" name="thumbs-up"></ion-icon>
+					<div>10</div>
+				</button>
+			</ion-col>
+			<ion-col>
+				<button ion-button icon-left clear small>
+					<ion-icon name="text"></ion-icon>
+					<div>2</div>
+				</button>
+			</ion-col>
+			<ion-col center text-center>
+				<button ion-button icon-left clear small color="danger" (click)="setReportMode(true)">
+					<ion-icon name="close"></ion-icon>
+					Denunciar
+				</button>
+			</ion-col>
+		</ion-row>
+	</ion-card>
+
+	<ion-card *ngIf="reportMode">
+		<ion-item>
+			<ion-input color="danger" type="text" placeholder="Descreva o motivo da denúncia"></ion-input>
+			<button item-right ion-button icon-only clear small color="danger" (click)="setReportMode(false)">
+				<ion-icon name="close"></ion-icon>
+			</button>
+			<button item-right ion-button icon-only clear small>
+				<ion-icon name="send"></ion-icon>
+			</button>
+		</ion-item>
+	</ion-card>
+
+	<ion-card>
+		<ion-item>
+			<h2>Nome do cidadão</h2>
+		</ion-item>
+		<ion-card-content>
+			<p>Comentário do cidadão</p>
+		</ion-card-content>
+	</ion-card>
+
+	<ion-card *ngIf="! reportMode">
+		<ion-card-content>
+			<ion-item>
+				<ion-input type="text" placeholder="Comentário..."></ion-input>
+				<button item-right ion-button icon-only clear small>
+					<ion-icon name="send"></ion-icon>
+				</button>
+			</ion-item>
+		</ion-card-content>
+	</ion-card>
+
+</ion-content>

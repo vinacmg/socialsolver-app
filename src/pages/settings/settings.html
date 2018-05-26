@@ -1,0 +1,58 @@
+<!--
+  Generated template for the SettingsPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar color="orange">
+  	<button ion-button menuToggle icon-only><ion-icon name="menu"></ion-icon></button>
+    <ion-title>Configurações</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+	<ion-list>
+		<ion-item>
+			<ion-label *ngIf="! editing">Nome: teste</ion-label>
+			<ion-label floating *ngIf="editing">Nome:</ion-label>
+			<ion-input type="text" *ngIf="editing"></ion-input>
+		</ion-item>
+		<ion-item>
+			<span *ngIf="! editing">E-mail: teste</span>
+			<ion-label floating *ngIf="editing">E-mail:</ion-label>
+			<ion-input type="email" *ngIf="editing"></ion-input>
+		</ion-item>
+		
+		<ion-item *ngIf="editing">
+			<ion-label floating>Digite a senha atual:</ion-label>
+			<ion-input type="password"></ion-input>
+		</ion-item>
+
+		<ion-item>
+			<span *ngIf="! editing">Senha: *****</span>
+			<ion-label floating *ngIf="editing">Digite a nova senha:</ion-label>
+			<ion-input type="password" *ngIf="editing"></ion-input>
+		</ion-item>
+
+		<ion-item *ngIf="! editing">
+			<button ion-button block color="orange" (click)="edit()">
+				Alterar dados
+			</button>
+		</ion-item>
+		<ion-item *ngIf="editing">
+			<button ion-button block color="orange" (click)="save()">
+				Pronto
+			</button>
+			<button ion-button block color="light" (click)="cancel()">
+				Cancelar
+			</button>
+		</ion-item>
+
+	</ion-list>
+
+</ion-content>

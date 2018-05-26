@@ -2,10 +2,12 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
 import { Denuncia } from '../../models/Denuncia';
 import { Comentario } from '../../models/Comentario';
+import { Usuario } from '../../models/Usuario';
 import { Observable,  BehaviorSubject } from 'rxjs';
 import { combineLatest } from 'rxjs/observable/combineLatest';
 import { map } from 'rxjs/operators';
 import { switchMap } from 'rxjs/operators';
+import { AngularFireAuth } from 'angularfire2/auth';
 
 @Injectable()
 export class FirestoreProvider {
@@ -22,7 +24,7 @@ export class FirestoreProvider {
   denunciaFilter$: BehaviorSubject<string|null>;
   upsFilter$: BehaviorSubject<number|null>;
 
-  constructor(public firestore: AngularFirestore) {
+  constructor(public firestore: AngularFirestore, private afAuth: AngularFireAuth) {
     this.categoriaFilter$ = new BehaviorSubject(null);
     this.dataFilter$ = new BehaviorSubject(null);
     this.denunciaFilter$ = new BehaviorSubject(null);
@@ -60,17 +62,6 @@ export class FirestoreProvider {
   }
 
   getComentarios(denuncia: Denuncia) {
-    /*
-    this.comentariosCollection = this.firestore.collection(`denuncias/${denuncia.id}/comentarios`);
-
-    this.comentarios = this.comentariosCollection.snapshotChanges().pipe(map(changes => {
-      return changes.map(a => {
-        const data = a.payload.doc.data() as Comentario;
-        data.id = a.payload.doc.id;
-        return data;
-      })
-    }));
-    */
     this.denunciaFilter$.next(denuncia.id);
 
     this.comentarios = this.denunciaFilter$.pipe(
@@ -98,5 +89,12 @@ export class FirestoreProvider {
 
   filterByUps(ups: number|null) {
     this.upsFilter$.next(ups); 
+  }
+
+  addUser(user: Usuario) {
+    this.firestore.collection('usuarios').doc(user.id).set({
+      apelido: user.apelido,
+      fotoUrl: user.fotoUrl
+    });
   }
 }

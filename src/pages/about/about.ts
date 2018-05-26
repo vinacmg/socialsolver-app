@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
-import { FirestoreProvider } from '../../providers/firestore/firestore';
 import { Denuncia } from '../../models/Denuncia';
 import { Comentario } from '../../models/Comentario';
+import { FirestoreProvider } from '../../providers/firestore/firestore';
+import { StorageProvider } from '../../providers/storage/storage';
+import { AuthenticationProvider } from '../../providers/authentication/authentication';
 
 @Component({
   selector: 'page-about',
@@ -12,8 +14,16 @@ export class AboutPage {
   denuncias: Denuncia[];
   comentarios: Comentario[];
   denunciaAbertaId: any;
+  user: any;
 
-  constructor(public navCtrl: NavController, private firestore: FirestoreProvider) { }
+  login = {email:'', senha:''};
+
+  constructor(
+    public navCtrl: NavController, 
+    private firestore: FirestoreProvider, 
+    private storage: StorageProvider,
+    private afAuth :AuthenticationProvider
+  ) { }
   
   ionViewDidLoad() {
     this.firestore.getDenuncias().subscribe(denuncias => {
@@ -30,5 +40,17 @@ export class AboutPage {
         this.comentarios = comentarios
       });
     }
+  }
+
+  uploadFile(event) {
+    const file = event.target.files[0];
+    this.storage.uploadFile('denuncias/id', file);
+  }
+
+  doLogin() {
+    this.afAuth.login(this.login.email, this.login.senha);
+    this.login.senha = '';
+    this.user = this.afAuth.currentUser();
+    console.log(this.user.uid);
   }
 }

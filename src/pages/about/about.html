@@ -7,6 +7,7 @@
 </ion-header>
 
 <ion-content padding>
+  <!--
   <ul>
     <li *ngFor="let denuncia of denuncias">
       {{ denuncia.titulo }}
@@ -18,4 +19,19 @@
       </ul>
     </li>
   </ul>
+  <input type="file" (change)="uploadFile($event)">
+  
+  <form (ngSubmit)="doLogin()">
+    <ion-item>
+      <ion-label stacked >Username</ion-label>
+      <ion-input type="text" [(ngModel)]="login.email" name="in"></ion-input>
+    </ion-item>
+  
+    <ion-item>
+      <ion-label stacked>Password</ion-label>
+      <ion-input type="password" [(ngModel)]="login.senha" name="psw"></ion-input>
+    </ion-item>
+    <button ion-button block type="submit">Sign in</button>
+  </form>
+  -->
 </ion-content>

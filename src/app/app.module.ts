@@ -5,6 +5,8 @@ import { MyApp } from './app.component';
 
 import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
+import { AngularFireStorageModule } from 'angularfire2/storage';
+import { AngularFireAuthModule } from 'angularfire2/auth';
 
 import { AboutPage } from '../pages/about/about';
 import { ContactPage } from '../pages/contact/contact';
@@ -15,6 +17,8 @@ import { MapPage } from '../pages/map/map';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { FirestoreProvider } from '../providers/firestore/firestore';
+import { AuthenticationProvider } from '../providers/authentication/authentication';
+import { StorageProvider } from '../providers/storage/storage';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyCUr8wEpToFZ3UMnw3Kj8OAYYpIzRicIhk",
@@ -38,7 +42,9 @@ export const firebaseConfig = {
     BrowserModule,
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(firebaseConfig, 'socialsolver-app'),
-    AngularFirestoreModule
+    AngularFirestoreModule,
+    AngularFireStorageModule,
+    AngularFireAuthModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -53,7 +59,9 @@ export const firebaseConfig = {
     StatusBar,
     SplashScreen,
     FirestoreProvider,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    AuthenticationProvider,
+    StorageProvider
   ]
 })
 export class AppModule {}

@@ -32,35 +32,41 @@
 			</ion-col>
 			<ion-col>
 				<button ion-button icon-left clear small>
-					<ion-icon color="danger" name="thumbs-down"></ion-icon>
-					<div>0</div>
+					<ion-icon name="text"></ion-icon>
+					<div>2</div>
 				</button>
 			</ion-col>
 			<ion-col center text-center>
-				<button ion-button icon-left clear small>
-					<ion-icon name="text"></ion-icon>
-					<div>2</div>
+				<button ion-button icon-left clear small color="danger" (click)="setReportMode(true)">
+					<ion-icon name="close"></ion-icon>
+					Denunciar
 				</button>
 			</ion-col>
 		</ion-row>
 	</ion-card>
 
-	<ion-card>
-		
+	<ion-card *ngIf="reportMode">
 		<ion-item>
-			<ion-avatar item-start>
-				<img src="../../assets/imgs/logo.png">
-			</ion-avatar>
-			<h2>Nome do cidadão</h2>
+			<ion-input color="danger" type="text" placeholder="Descreva o motivo da denúncia"></ion-input>
+			<button item-right ion-button icon-only clear small color="danger" (click)="setReportMode(false)">
+				<ion-icon name="close"></ion-icon>
+			</button>
+			<button item-right ion-button icon-only clear small>
+				<ion-icon name="send"></ion-icon>
+			</button>
 		</ion-item>
-
-		<ion-card-content>
-			<p>Comentário do cidadão</p>
-		</ion-card-content>
-
 	</ion-card>
 
 	<ion-card>
+		<ion-item>
+			<h2>Nome do cidadão</h2>
+		</ion-item>
+		<ion-card-content>
+			<p>Comentário do cidadão</p>
+		</ion-card-content>
+	</ion-card>
+
+	<ion-card *ngIf="! reportMode">
 		<ion-card-content>
 			<ion-item>
 				<ion-input type="text" placeholder="Comentário..."></ion-input>

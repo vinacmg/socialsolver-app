@@ -6,18 +6,30 @@
 -->
 <ion-header>
   <ion-navbar color="orange">
+  	<button ion-button menuToggle icon-only><ion-icon name="menu"></ion-icon></button>
     <ion-title>Nova denúncia</ion-title>
+    <ion-buttons end>
+    	<button ion-button icon-only clear color="light" right (click)="save()" *ngIf="reportLocation">
+			<ion-icon name="checkmark"></ion-icon>
+		</button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 
 <ion-content padding>
-	<ion-list no-lines>
+	<ion-grid>
+		<button ion-button icon-left block clear color="orange" [navPush]="mapa" [navParams]="params" *ngIf="! reportLocation">
+			<ion-icon name="pin"></ion-icon>
+			Selecione a localização
+		</button>
+	</ion-grid>
+	<ion-list no-lines *ngIf="reportLocation">
 		<ion-item>
-			<ion-input type="text" placeholder="Título"></ion-input>
+			<ion-input type="text" placeholder="Título" [(ngModel)]="title"></ion-input>
 		</ion-item>
 		<ion-item>
-			<ion-input type="text" placeholder="Descrição"></ion-input>
+			<ion-input type="text" placeholder="Descrição" [(ngModel)]="description"></ion-input>
 		</ion-item>
 		<ion-item>
 			<button ion-button icon-left block outline color="orange">
@@ -30,21 +42,13 @@
 			</button>
 		</ion-item>
 		<ion-item>
-			<ion-list no-lines>
-				<ion-item *ngFor="let item of classSelecionadas" text-wrap>
-					<p color="light">{{ item }}</p>
-				</ion-item>
-				<ion-item *ngIf="classSelecionadas.length == 0" text-wrap>
-					<p color="light">Por favor, selecione pelo menos uma classificação.</p>
-				</ion-item>
-			</ion-list>
+			<ion-badge color="orange" *ngFor="let item of classSelecionadas" style="margin-right: 10px;">
+				{{ item }}
+			</ion-badge>
+			<ion-badge *ngIf="classSelecionadas.length == 0" color="light" text-wrap>
+				Por favor, selecione pelo menos uma classificação.
+			</ion-badge>
 		</ion-item>
-		<ion-grid>
-			<button ion-button icon-left block clear color="orange" [navPush]="mapa" [navParams]="params">
-				<ion-icon name="pin"></ion-icon>
-				Selecione a localização
-			</button>
-		</ion-grid>
 	</ion-list>
 
 </ion-content>

@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { AlertController } from 'ionic-angular';
+import { AlertController, IonicPage, NavController, NavParams } from 'ionic-angular';
 
 import { MapPage } from '../map/map';
 
@@ -18,12 +17,18 @@ import { MapPage } from '../map/map';
 })
 export class NovaDenunciaPage {
 
+  title: string;
+  description: string;
 	classificacoes: { nome: string }[] = [];
 	classSelecionadas: { nome: string }[] = [];
   mapa: any;
   params: any;
+  reportLocation: any = null;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController) {
+
+    this.reportLocation = this.navParams.get('reportLocation');
+
     this.mapa = MapPage;
     this.params = { criandoDenuncia: true };
   	this.classificacoes.push(
@@ -34,7 +39,26 @@ export class NovaDenunciaPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad NovaDenunciaPage');
+  }
+
+  save() {
+    this.validate();
+  }
+
+  validate() {
+    if (! this.title || ! this.description || this.classSelecionadas.length == 0) {
+      this.showAlert("Atenção", "Preencha todos os campos");
+      return;
+    }
+  }
+
+  showAlert(title, subTitle) {
+    let alert = this.alertCtrl.create({
+      title: title,
+      subTitle: subTitle,
+      buttons: ['OK']
+    });
+    alert.present();
   }
 
   verClassificacoes() {

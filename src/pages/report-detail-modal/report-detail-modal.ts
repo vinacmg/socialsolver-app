@@ -21,7 +21,8 @@ export class ReportDetailModalPage {
     categorias: Array<string>,
     descricao: string,
     data: Date
-  }
+  };
+  reportMode: boolean = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController) {
     this.report = navParams.get('report');
@@ -33,6 +34,13 @@ export class ReportDetailModalPage {
 
   dismiss() {
   	this.viewCtrl.dismiss();
+  }
+
+  setReportMode(status) {
+    this.reportMode = status;
+  }
+
+  sendReport() {
   }
 
 }

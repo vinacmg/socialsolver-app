@@ -1,6 +1,5 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { AlertController } from 'ionic-angular';
+import { AlertController, IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
 
 import { NovaDenunciaPage } from '../nova-denuncia/nova-denuncia';
@@ -27,6 +26,7 @@ export class MapPage {
   novaDenuncia: any;
   criandoDenuncia: boolean = false;
   locationSelected: boolean = false;
+  reportLocation: any;
 
 	p1 = {lat: -22.3493143, lng: -49.0315599};
 
@@ -47,10 +47,13 @@ export class MapPage {
   }
 
   finish() {
-    if (! this.locationSelected) {
-      this.showAlert('Atenção', 'Selecione pelo menos uma localização no mapa!');
+    if (this.locationSelected) {
+      this.navCtrl.push(NovaDenunciaPage, {
+        reportLocation: this.reportLocation
+      });
+      return;
     }
-    this.showAlert('Pronto', 'Sua denúncia foi registrada!');
+    this.showAlert('Atenção', 'Selecione pelo menos uma localização no mapa!');
   }
 
   showAlert(title, subTitle) {
@@ -82,21 +85,37 @@ export class MapPage {
     
     map.setOptions({styles: styles['hide']});
 
+    this.addListener();
+  }
+
+  addListener()  {
     var that = this;
 
-    if (this.criandoDenuncia) {
+    if (this.criandoDenuncia && ! this.locationSelected) {
       this.map.addListener('click', function(e) {
-        that.locationSelected = true;
-        (new google.maps.Marker({
-            position: e.latLng,
-            map: map
-        })).addListener('click', function(){
-        	this.setMap(null);
-          that.locationSelected = false;
-        });
-    	});
+        that.selectLocation(e);
+      });
     }
+  }
 
+  selectLocation(e) {
+      this.locationSelected = true;
+      let that = this;
+
+      const marker = new google.maps.Marker({
+        position: e.latLng,
+        map: this.map
+      });
+
+      that.reportLocation = e.latLng;
+
+      marker.addListener('click', function() {
+        this.setMap(null);
+        that.locationSelected = false;
+        that.addListener();
+      });
+
+      google.maps.event.clearListeners(this.map, 'click');
   }
 
 }

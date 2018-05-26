@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { RegisterUserPage } from '../register-user/register-user';
+import { UserFeedPage } from "../user-feed/user-feed";
 
 /**
  * Generated class for the LoginPage page.
@@ -19,7 +21,13 @@ export class LoginPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad LoginPage');
   }
 
+  login() {
+    this.navCtrl.setRoot(UserFeedPage);
+  }
+
+  register() {
+    this.navCtrl.push(RegisterUserPage);
+  }
 }

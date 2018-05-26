@@ -33,7 +33,7 @@ export class UserFeedPage {
 	}[] = [];
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController) {
-  	this.initializeReportList();
+    this.initializeReportList();
   }
 
   ionViewDidLoad() {

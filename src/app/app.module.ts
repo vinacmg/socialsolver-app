@@ -3,6 +3,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 
+import { AngularFireModule } from 'angularfire2';
+import { AngularFirestoreModule } from 'angularfire2/firestore';
+import { AngularFireStorageModule } from 'angularfire2/storage';
+import { AngularFireAuthModule } from 'angularfire2/auth';
+
 import { LoginPage } from '../pages/login/login';
 import { RegisterUserPage } from '../pages/register-user/register-user';
 import { AboutPage } from '../pages/about/about';
@@ -17,8 +22,19 @@ import { SettingsPage } from '../pages/settings/settings';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-
+import { FirestoreProvider } from '../providers/firestore/firestore';
+import { AuthenticationProvider } from '../providers/authentication/authentication';
+import { StorageProvider } from '../providers/storage/storage';
 import { Geolocation } from '@ionic-native/geolocation';
+
+export const firebaseConfig = {
+  apiKey: "AIzaSyCUr8wEpToFZ3UMnw3Kj8OAYYpIzRicIhk",
+  authDomain: "socialsolver-app.firebaseapp.com",
+  databaseURL: "https://socialsolver-app.firebaseio.com",
+  projectId: "socialsolver-app",
+  storageBucket: "socialsolver-app.appspot.com",
+  messagingSenderId: "329381999567"
+};
 
 @NgModule({
   declarations: [
@@ -37,7 +53,11 @@ import { Geolocation } from '@ionic-native/geolocation';
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    AngularFireModule.initializeApp(firebaseConfig, 'socialsolver-app'),
+    AngularFirestoreModule,
+    AngularFireStorageModule,
+    AngularFireAuthModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -58,6 +78,9 @@ import { Geolocation } from '@ionic-native/geolocation';
     StatusBar,
     SplashScreen,
     Geolocation,
+    FirestoreProvider,
+    AuthenticationProvider,
+    StorageProvider,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

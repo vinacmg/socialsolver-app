@@ -7,5 +7,5 @@ export interface Denuncia {
   data?:Date;
   resolvido?:boolean;
   ups?:number;
-  coord?:{lat:any, lng:any};
+  coord?:any;
 }

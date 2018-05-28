@@ -15,14 +15,13 @@
 
 <ion-content>
 	<ion-fab right bottom *ngIf="! criandoDenuncia">
-		<button ion-button icon-only round large color="orange" [navPush]="novaDenuncia">
+		<button ion-fab color="orange" [navPush]="novaDenuncia">
 			<ion-icon name="add"></ion-icon>
 		</button>
 	</ion-fab>
 	<ion-fab right bottom *ngIf="criandoDenuncia">
-		<button ion-button icon-left color="orange" (click)="finish()">
+		<button ion-fab color="orange" (click)="finish()">
 			<ion-icon name="arrow-round-forward"></ion-icon>
-			PRONTO
 		</button>
 	</ion-fab>
 	<div #map id="map"></div>

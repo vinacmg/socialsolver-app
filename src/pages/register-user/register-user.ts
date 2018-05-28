@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { AlertController, IonicPage, NavController, NavParams } from 'ionic-angular';
+import  { Usuario } from "../../models/Usuario";
+import { AuthenticationProvider } from '../../providers/authentication/authentication';
 
 /**
  * Generated class for the RegisterUserPage page.
@@ -18,19 +20,39 @@ export class RegisterUserPage {
 	nome: string;
 	email: string;
 	senha: string;
+	usuario: Usuario = {
+		id: 0,
+		fotoUrl: "",
+		apelido: ""
+	};
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController) {
-  }
+  constructor(
+		public navCtrl: NavController,
+		public navParams: NavParams,
+		public alertCtrl: AlertController,
+		public auth: AuthenticationProvider
+	) {}
 
   ionViewDidLoad() {
   }
 
   finish() {
   	if (this.validate()) {
-  		this.showAlert("Bem-vindo", "Seu cadastro foi efetuado com sucesso.");
-      this.navCtrl.pop();
+			this.createUser();
   	}
-  }
+	}
+	
+	createUser() {
+		this.usuario.apelido = this.nome;
+		this.auth.createUser(this.email, this.senha, this.usuario)
+			.then(() => {
+				this.showAlert("Bem-vindo", "Seu cadastro foi efetuado com sucesso.");
+				this.navCtrl.pop();
+			})
+			.catch((error) => {
+				this.showAlert("Atenção", this.getError(error));
+			});
+	}
 
   validate() {
   	if (! this.nome || ! this.email || ! this.senha) {
@@ -56,6 +78,13 @@ export class RegisterUserPage {
       buttons: ['OK']
     });
     alert.present();
-  }
+	}
+	
+	getError(code: string) {
+		switch(code) {
+			case "auth/weak-password":
+				return "A senha deve conter pelo menos 6 caracteres";
+		}
+	}
 
 }

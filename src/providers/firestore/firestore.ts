@@ -20,21 +20,24 @@ export class FirestoreProvider {
   comentarioDoc: AngularFirestoreDocument<Comentario>;
 
   categoriaFilter$: BehaviorSubject<string|null>;
-  dataFilter$: BehaviorSubject<Date|null>;
+  dataFilter$: BehaviorSubject<string|null>;
   denunciaFilter$: BehaviorSubject<string|null>;
-  upsFilter$: BehaviorSubject<number|null>;
+  upsFilter$: BehaviorSubject<string|null>;
+  tituloFilter$: BehaviorSubject<string|null>;
 
   constructor(public firestore: AngularFirestore, private afAuth: AngularFireAuth) {
     this.categoriaFilter$ = new BehaviorSubject(null);
     this.dataFilter$ = new BehaviorSubject(null);
     this.denunciaFilter$ = new BehaviorSubject(null);
     this.upsFilter$ = new BehaviorSubject(null);
+    this.tituloFilter$ = new BehaviorSubject(null);
     this.denunciasCollection = this.firestore.collection('denuncias');
-    this.denuncias = combineLatest(this.categoriaFilter$, this.dataFilter$, this.upsFilter$).pipe(
-      switchMap(([categoria, date, ups]) => this.firestore.collection('denuncias', ref => {
+    this.denuncias = combineLatest(this.tituloFilter$, this.categoriaFilter$, this.dataFilter$, this.upsFilter$).pipe(
+      switchMap(([titulo, categoria, date, ups]) => this.firestore.collection('denuncias', ref => {
         let query: any = ref;
-        if(date) { query = query.where('data', '==', date) };
-        if(ups) { query = query.where('ups', '==', ups) };
+        if(titulo) { query = query.orderBy('titulo', titulo) };
+        if(date) { query = query.orderBy('data', date) };
+        if(ups) { query = query.orderBy('ups', ups) };
         if(categoria) { query = query.where(`categorias.${categoria}`, '==', true) };
         return query;
       }).snapshotChanges().pipe(map(changes => {
@@ -48,12 +51,15 @@ export class FirestoreProvider {
     );
   }
 
-  getDenuncias() {
-    return this.denuncias;
-  }
-
   addDenuncia(denuncia: Denuncia) {
     this.denunciasCollection.add(denuncia);
+  }
+
+  addUser(user: Usuario) {
+    this.firestore.collection('usuarios').doc(user.id).set({
+      apelido: user.apelido,
+      fotoUrl: user.fotoUrl
+    });
   }
 
   deleteDenuncia(denuncia: Denuncia) {
@@ -64,7 +70,7 @@ export class FirestoreProvider {
   getComentarios(denuncia: Denuncia) {
     this.denunciaFilter$.next(denuncia.id);
 
-    this.comentarios = this.denunciaFilter$.pipe(
+    this.comentarios = this.denunciaFilter$.pipe(//tirar daqui no futuro
       switchMap(id => this.firestore.collection(`denuncias/${id}/comentarios`, ref => ref.orderBy('data', 'asc'))
       .snapshotChanges().pipe(map(changes => {
         return changes.map(a => {
@@ -79,22 +85,36 @@ export class FirestoreProvider {
     return this.comentarios;
   }
 
+  getDenuncias() {
+    return this.denuncias;
+  }
+
   filterByCategoria(categoria: string|null) {
     this.categoriaFilter$.next(categoria);
   }
 
-  filterByData(data: Date|null) {
-    this.dataFilter$.next(data); 
+  //FILTROS
+  filterDataAsc() {
+    this.dataFilter$.next('asc'); 
   }
 
-  filterByUps(ups: number|null) {
-    this.upsFilter$.next(ups); 
+  filterDataDesc() {
+    this.dataFilter$.next('desc'); 
   }
 
-  addUser(user: Usuario) {
-    this.firestore.collection('usuarios').doc(user.id).set({
-      apelido: user.apelido,
-      fotoUrl: user.fotoUrl
-    });
+  filterUpsAsc() {
+    this.upsFilter$.next('asc');
+  }
+
+  filterUpsDesc() {
+    this.upsFilter$.next('desc');
+  }
+
+  filterTituloAsc() {
+    this.upsFilter$.next('asc');
+  }
+
+  filterTituloDesc() {
+    this.upsFilter$.next('desc');
   }
 }

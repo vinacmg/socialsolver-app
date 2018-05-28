@@ -36,7 +36,6 @@ export class MapPage {
   }
 
   ionViewDidLoad() {
-  	this.showMap();
     console.log('ionViewDidLoad MapPage');
 
     this.geolocation.getCurrentPosition().then((resp) => {

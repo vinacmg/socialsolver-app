@@ -11,9 +11,14 @@ export class AuthenticationProvider {
   ) { }
 
   login(email: string, password: string) {
-    this.afAuth.auth.signInWithEmailAndPassword(email, password)
-    .catch(function(error) {
-      throw error.code;
+    return new Promise((resolve, reject) => {
+      this.afAuth.auth.signInWithEmailAndPassword(email, password)
+        .then(function() {
+          return resolve();
+        })
+        .catch(function(error) {
+          return reject(error.code);
+        })
     });
   }
 
@@ -22,14 +27,19 @@ export class AuthenticationProvider {
   }
 
   createUser(email: string, password: string, user: Usuario) {
-    const afAuth = this.afAuth;
-    const firestore = this.firestore;
-    const u = user;
-    afAuth.auth.createUserWithEmailAndPassword(email, password)
-    .then(function() {
-      u.id = afAuth.auth.currentUser.uid;
-      firestore.addUser(u);
-    }).catch(function(error) {
+    return new Promise((resolve, reject) => {
+      const afAuth = this.afAuth;
+      const firestore = this.firestore;
+      const u = user;
+      afAuth.auth.createUserWithEmailAndPassword(email, password)
+        .then(function() {
+          u.id = afAuth.auth.currentUser.uid;
+          firestore.addUser(u);
+          return resolve();
+        })
+        .catch(function(error) {
+          return reject(error.code);
+        });
     });
   }
 

@@ -13,14 +13,14 @@
 	<ion-list no-lines>
 		<ion-item>
 			<ion-label floating>E-mail</ion-label>
-			<ion-input type="email"></ion-input>
+			<ion-input type="email" [(ngModel)]="login.email"></ion-input>
 		</ion-item>
 		<ion-item>
 			<ion-label floating>Senha</ion-label>
-			<ion-input type="password"></ion-input>
+			<ion-input type="password" [(ngModel)]="login.senha"></ion-input>
 		</ion-item>
 		<ion-item>
-			<button ion-button block round color="orange" (click)="login()">Entrar</button>
+			<button ion-button block round color="orange" (click)="doLogin()">Entrar</button>
 			<button ion-button outline round block color="orange" (click)="register()">Cadastrar-se</button>
 		</ion-item>
 	</ion-list>

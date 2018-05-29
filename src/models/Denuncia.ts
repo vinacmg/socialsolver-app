@@ -2,7 +2,13 @@ export interface Denuncia {
   id?:any;
   autorid?:any;
   titulo?:string;
-  categorias?:{agua:boolean, seguranca:boolean, saude:boolean};
+  categorias?:{
+    agua:boolean,
+    seguranca:boolean, 
+    saude:boolean,
+    transporte:boolean,
+    iluminacao:boolean
+  };
   descricao?:string;
   data?:Date;
   resolvido?:boolean;

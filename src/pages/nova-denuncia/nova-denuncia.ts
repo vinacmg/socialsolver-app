@@ -1,7 +1,11 @@
 import { Component } from '@angular/core';
 import { AlertController, IonicPage, NavController, NavParams } from 'ionic-angular';
-
 import { MapPage } from '../map/map';
+import { FirestoreProvider } from '../../providers/firestore/firestore';
+import { Denuncia } from '../../models/Denuncia';
+import { AuthenticationProvider } from '../../providers/authentication/authentication';
+import { AngularFirestore } from 'angularfire2/firestore';
+import * as firebase from "firebase/app";
 
 /**
  * Generated class for the NovaDenunciaPage page.
@@ -24,16 +28,24 @@ export class NovaDenunciaPage {
   mapa: any;
   params: any;
   reportLocation: any = null;
+  denuncia: Denuncia = {};
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController) {
-
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public alertCtrl: AlertController,
+    public angFire: AngularFirestore,
+    public auth: AuthenticationProvider,
+    public fire: FirestoreProvider
+  ) {
     this.reportLocation = this.navParams.get('reportLocation');
-
     this.mapa = MapPage;
     this.params = { criandoDenuncia: true };
   	this.classificacoes.push(
-  		{	nome: 'Transporte/Trânsito'},
-  		{	nome: 'Água'},
+      {	nome: 'Água'},
+      {	nome: 'Segurança'},
+      { nome: 'Saúde' },
+      { nome: 'Transporte' },
       { nome: 'Iluminação' }
   	);
   }
@@ -42,14 +54,36 @@ export class NovaDenunciaPage {
   }
 
   save() {
-    this.validate();
+    if(this.validate()) {
+      this.denuncia.autorid = this.auth.currentUser().uid;
+      this.denuncia.titulo = this.title;
+      this.addCategories();
+      this.denuncia.descricao = this.description;
+      this.denuncia.data = new Date();
+      this.denuncia.resolvido = false;
+      this.denuncia.ups = 0;
+      this.denuncia.coord = new firebase.firestore.GeoPoint(this.reportLocation.lat(), this.reportLocation.lng());
+
+      this.fire.addDenuncia(this.denuncia);
+      this.showAlert("Muito bem!", "Sua denúncia foi cadastrada");
+      this.navCtrl.setRoot(MapPage);
+    }
+  }
+
+  addCategories() {
+    if (this.classSelecionadas.indexOf({ nome: "Água" }) > -1) this.denuncia.categorias.agua = true;
+    if (this.classSelecionadas.indexOf({ nome: "Segurança" }) > -1) this.denuncia.categorias.seguranca = true;
+    if (this.classSelecionadas.indexOf({ nome: "Saúde" }) > -1) this.denuncia.categorias.saude = true;
+    if (this.classSelecionadas.indexOf({ nome: "Transporte" }) > -1) this.denuncia.categorias.transporte = true;
+    if (this.classSelecionadas.indexOf({ nome: "Iluminação" }) > -1) this.denuncia.categorias.iluminacao = true;
   }
 
   validate() {
     if (! this.title || ! this.description || this.classSelecionadas.length == 0) {
       this.showAlert("Atenção", "Preencha todos os campos");
-      return;
+      return false;
     }
+    return true;
   }
 
   showAlert(title, subTitle) {

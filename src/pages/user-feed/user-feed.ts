@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { ModalController } from 'ionic-angular';
 import { ReportDetailModalPage } from '../report-detail-modal/report-detail-modal';
+import { Denuncia } from '../../models/Denuncia';
+import { FirestoreProvider } from '../../providers/firestore/firestore';
+import { Observable } from 'rxjs';
 
 /**
  * Generated class for the UserFeedPage page.
@@ -18,37 +21,35 @@ import { ReportDetailModalPage } from '../report-detail-modal/report-detail-moda
 export class UserFeedPage {
 
 	filtro: any;
-  categorias: {
-    nome: string
-  }[] = [];
 
-	reportList: {
-		id: any,
-		titulo: string, 
-		categorias: Array<string>,
-		descricao: string,
-		data: Date,
-    ups: number,
-    reports: number
-	}[] = [];
-
-  constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController) {
-    this.initializeReportList();
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public modalCtrl: ModalController,
+    public fire: FirestoreProvider
+  ) {
   }
 
   ionViewDidLoad() {
   }
 
-  initializeReportList() {
-  	this.reportList.push({
-  		id: 0,
-  		titulo: "Lâmpada de poste queimada",
-  		categorias: ['Iluminação', 'Água'],
-  		descricao: "Falta de iluminação",
-  		data: new Date(),
-      ups: 10,
-      reports: 1
-  	});
+  getDenuncias() {
+    return this.fire.getDenuncias();
+  }
+
+  getUser(authorid: any) {
+  }
+
+  getCategories(report) {
+    let categorias = [];
+
+    if (report.categorias.agua) categorias.push("Água");
+    if (report.categorias.seguranca) categorias.push("Segurança");
+    if (report.categorias.saude) categorias.push("Saúde");
+    if (report.categorias.transporte) categorias.push("Transporte");
+    if (report.categorias.iluminacao) categorias.push("Iluminação");
+
+    return categorias;
   }
 
   presentReportDetail(report: any) {

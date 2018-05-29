@@ -13,7 +13,7 @@
 
 
 <ion-content padding>
-	<ion-card *ngFor="let report of reportList">
+	<ion-card *ngFor="let report of getDenuncias() | async">
 		
 		<ion-item>
 			<ion-avatar item-start>
@@ -23,12 +23,10 @@
 			<p>{{ report.data | date: 'dd/MM/yyyy H:mm' }}</p>
 		</ion-item>
 
-		<!-- <img src="../../assets/imgs/logo.png"> -->
-
 		<ion-card-content>
 			<ion-card-title>{{ report.titulo }}</ion-card-title>
 			<p>{{ report.descricao }}</p>
-			<ion-badge color="orange" *ngFor="let categoria of report.categorias" style="margin-right: 10px;">
+			<ion-badge color="orange" *ngFor="let categoria of getCategories(report)" style="margin-right: 10px;">
 				{{ categoria }}
 			</ion-badge>
 		</ion-card-content>
@@ -40,13 +38,7 @@
 					<div>{{ report.ups }}</div>
 				</button>
 			</ion-col>
-			<ion-col>
-				<button ion-button icon-left clear small color="orange">
-					<ion-icon name="text"></ion-icon>
-					<div>2</div>
-				</button>
-			</ion-col>
-			<ion-col center text-center>
+			<ion-col text-right>
 				<button ion-button icon-left clear small color="orange" (click)="presentReportDetail(report)">
 					<ion-icon name="eye"></ion-icon>
 				</button>

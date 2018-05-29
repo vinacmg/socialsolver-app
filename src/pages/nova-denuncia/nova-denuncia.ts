@@ -23,8 +23,8 @@ export class NovaDenunciaPage {
 
   title: string;
   description: string;
-	classificacoes: { nome: string }[] = [];
-	classSelecionadas: { nome: string }[] = [];
+	classificacoes: string[] = [];
+	classSelecionadas: string[] = [];
   mapa: any;
   params: any;
   reportLocation: any = null;
@@ -41,13 +41,13 @@ export class NovaDenunciaPage {
     this.reportLocation = this.navParams.get('reportLocation');
     this.mapa = MapPage;
     this.params = { criandoDenuncia: true };
-  	this.classificacoes.push(
-      {	nome: 'Água'},
-      {	nome: 'Segurança'},
-      { nome: 'Saúde' },
-      { nome: 'Transporte' },
-      { nome: 'Iluminação' }
-  	);
+    this.classificacoes = [
+      "Água",
+      "Segurança",
+      "Saúde",
+      "Transporte",
+      "Iluminação"
+    ];
   }
 
   ionViewDidLoad() {
@@ -58,6 +58,9 @@ export class NovaDenunciaPage {
       this.denuncia.autorid = this.auth.currentUser().uid;
       this.denuncia.titulo = this.title;
       this.addCategories();
+
+      console.log(this.denuncia.categorias);
+
       this.denuncia.descricao = this.description;
       this.denuncia.data = new Date();
       this.denuncia.resolvido = false;
@@ -71,11 +74,20 @@ export class NovaDenunciaPage {
   }
 
   addCategories() {
-    if (this.classSelecionadas.indexOf({ nome: "Água" }) > -1) this.denuncia.categorias.agua = true;
-    if (this.classSelecionadas.indexOf({ nome: "Segurança" }) > -1) this.denuncia.categorias.seguranca = true;
-    if (this.classSelecionadas.indexOf({ nome: "Saúde" }) > -1) this.denuncia.categorias.saude = true;
-    if (this.classSelecionadas.indexOf({ nome: "Transporte" }) > -1) this.denuncia.categorias.transporte = true;
-    if (this.classSelecionadas.indexOf({ nome: "Iluminação" }) > -1) this.denuncia.categorias.iluminacao = true;
+
+    this.denuncia.categorias = {
+      agua: false,
+      seguranca: false,
+      saude: false,
+      transporte: false,
+      iluminacao: false
+    }
+
+    if (this.classSelecionadas.indexOf("Água") > -1) this.denuncia.categorias.agua = true;
+    if (this.classSelecionadas.indexOf("Segurança") > -1) this.denuncia.categorias.seguranca = true;
+    if (this.classSelecionadas.indexOf("Saúde") > -1) this.denuncia.categorias.saude = true;
+    if (this.classSelecionadas.indexOf("Transporte") > -1) this.denuncia.categorias.transporte = true;
+    if (this.classSelecionadas.indexOf("Iluminação") > -1) this.denuncia.categorias.iluminacao = true;
   }
 
   validate() {
@@ -102,8 +114,8 @@ export class NovaDenunciaPage {
   	for(let i=0; i<this.classificacoes.length; i++) {
   		alert.addInput({
   			type: 'checkbox',
-  			label: this.classificacoes[i].nome,
-  			value: this.classificacoes[i].nome,
+  			label: this.classificacoes[i],
+  			value: this.classificacoes[i],
   			checked: this.classSelecionadas.some(x => x === this.classSelecionadas[i])
   		});
   	}

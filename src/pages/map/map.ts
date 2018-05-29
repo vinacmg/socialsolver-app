@@ -1,8 +1,11 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { AlertController, IonicPage, NavController, NavParams } from 'ionic-angular';
+import { AlertController, IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
+import { Denuncia } from '../../models/Denuncia';
 
+import { ReportDetailModalPage } from '../report-detail-modal/report-detail-modal';
 import { NovaDenunciaPage } from '../nova-denuncia/nova-denuncia';
+import { FirestoreProvider } from '../../providers/firestore/firestore';
 
 /**
  * Generated class for the MapPage page.
@@ -28,22 +31,39 @@ export class MapPage {
   locationSelected: boolean = false;
   reportLocation: any;
 
-	p1 = {lat: -22.3493143, lng: -49.0315599};
+  markers: any = [];
+  denuncias: Denuncia[];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, private geolocation: Geolocation) {
+  constructor(
+    public navCtrl: NavController, 
+    public navParams: NavParams, 
+    public alertCtrl: AlertController, 
+    private geolocation: Geolocation,
+    private firestore: FirestoreProvider,
+    private modalCtrl: ModalController
+  ) {
     this.novaDenuncia = NovaDenunciaPage;
     this.criandoDenuncia = this.navParams.get('criandoDenuncia');
-  }
-
-  ionViewDidLoad() {
-  	this.showMap();
-    console.log('ionViewDidLoad MapPage');
-
+    
     this.geolocation.getCurrentPosition().then((resp) => {
       this.showMap(resp.coords.latitude, resp.coords.longitude);
+
+      this.firestore.getDenuncias().subscribe(denuncias => {
+        this.clearMarkers();
+        this.denuncias = denuncias
+        this.denuncias.map(denuncia => {
+          this.addMarker(denuncia);
+        });
+      });
     }).catch((error) => {
       console.log('Erro', error);
     });
+  }
+
+  ionViewDidLoad() {
+  }
+
+  ionViewDidEnter() {
   }
 
   finish() {
@@ -67,7 +87,9 @@ export class MapPage {
 
   showMap(latitude = null, longitude = null) {
     var local = {lat: latitude, lng: longitude};
-  	this.map = new google.maps.Map(this.mapRef.nativeElement, {center: local, zoom: 17, disableDefaultUI: true});
+    this.map = new google.maps.Map(this.mapRef.nativeElement, 
+      {center: local, zoom: 17, disableDefaultUI: true}
+    );
   	var map = this.map;
 
     var styles = {
@@ -114,8 +136,42 @@ export class MapPage {
         that.locationSelected = false;
         that.addListener();
       });
-
       google.maps.event.clearListeners(this.map, 'click');
   }
 
+  addMarker(denuncia: Denuncia) {/*
+    let image = {
+      url: '../../assets/imgs/marker.png',
+      size: new google.maps.Size(26, 30),
+      origin: new google.maps.Point(0, 0),
+      anchor: new google.maps.Point(13, 30)
+  };*/
+    
+    const marker = new google.maps.Marker({
+      map: this.map,
+      position: {lat: denuncia.coord.latitude, lng: denuncia.coord.longitude},
+      //icon: image,
+      //animation: google.maps.Animation.DROP
+      //icon:
+    });
+    
+    let that = this;
+    marker.addListener('click', function() {
+      that.presentReportDetail(denuncia);
+    });
+
+    this.markers.push(marker);
+  }
+
+  clearMarkers() {
+    this.markers.map(marker => {
+      marker.setMap(null);
+    });
+    this.markers = [];
+  }
+
+  presentReportDetail(report: any) {
+  	let modal = this.modalCtrl.create(ReportDetailModalPage, { report: report });
+  	modal.present();
+  }
 }

@@ -24,6 +24,10 @@ export class FirestoreProvider {
   denunciaFilter$: BehaviorSubject<string|null>;
   upsFilter$: BehaviorSubject<string|null>;
   tituloFilter$: BehaviorSubject<string|null>;
+  usuarioFilter$: BehaviorSubject<string|null>;
+
+  usuariosCollention: AngularFirestoreCollection<Usuario>;
+  usuario: Observable<Usuario>;
 
   constructor(public firestore: AngularFirestore, private afAuth: AngularFireAuth) {
     this.categoriaFilter$ = new BehaviorSubject(null);
@@ -31,6 +35,7 @@ export class FirestoreProvider {
     this.denunciaFilter$ = new BehaviorSubject(null);
     this.upsFilter$ = new BehaviorSubject(null);
     this.tituloFilter$ = new BehaviorSubject(null);
+    this.usuarioFilter$ = new BehaviorSubject(null);
     this.denunciasCollection = this.firestore.collection('denuncias');
     this.denuncias = combineLatest(this.tituloFilter$, this.categoriaFilter$, this.dataFilter$, this.upsFilter$).pipe(
       switchMap(([titulo, categoria, date, ups]) => this.firestore.collection('denuncias', ref => {
@@ -49,6 +54,10 @@ export class FirestoreProvider {
       }))
       )
     );
+    this.usuariosCollention = this.firestore.collection('usuarios');
+    this.usuario = this.usuarioFilter$.pipe(
+      switchMap(uid => this.firestore.collection('usuarios').doc(uid).valueChanges())
+    );
   }
 
   addDenuncia(denuncia: Denuncia) {
@@ -56,10 +65,33 @@ export class FirestoreProvider {
   }
 
   addUser(user: Usuario) {
-    this.firestore.collection('usuarios').doc(user.id).set({
+    this.usuariosCollention.doc(user.id).set({
       apelido: user.apelido,
       fotoUrl: user.fotoUrl
     });
+  }
+
+  addUp(denuncia: Denuncia,uid: string) {
+    if(denuncia.upped.indexOf(uid) >= 0){
+      throw 'user-has-already-upped';
+    } else {
+      denuncia.upped.push(uid);
+      this.denunciasCollection.doc(denuncia.id).update({
+        upped: denuncia.upped,
+        ups: denuncia.ups+1
+      })
+    }
+  }
+
+  deleteUp(denuncia: Denuncia,uid: string) {
+    const index = denuncia.upped.indexOf(uid);
+    if(index >= 0){
+      denuncia.upped.splice(index, 1);
+      this.denunciasCollection.doc(denuncia.id).update({
+        upped: denuncia.upped,
+        ups: denuncia.ups+1
+      })
+    } else throw 'user-has-not-upped';
   }
 
   deleteDenuncia(denuncia: Denuncia) {
@@ -87,6 +119,11 @@ export class FirestoreProvider {
 
   getDenuncias() {
     return this.denuncias;
+  }
+
+  getUsuario(uid: string) {
+    this.usuarioFilter$.next(uid);
+    return this.usuario;
   }
 
   filterByCategoria(categoria: string|null) {

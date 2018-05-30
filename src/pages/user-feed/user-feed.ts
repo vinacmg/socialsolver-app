@@ -53,6 +53,7 @@ export class UserFeedPage {
   }
 
   presentReportDetail(report: any) {
+    this.fire.deleteUp(report, 'vinacmg');
   	let modal = this.modalCtrl.create(ReportDetailModalPage, { report: report });
   	modal.present();
   }

@@ -13,5 +13,6 @@ export interface Denuncia {
   data?:Date;
   resolvido?:boolean;
   ups?:number;
+  upped?:Array<string>;
   coord?:any;
 }

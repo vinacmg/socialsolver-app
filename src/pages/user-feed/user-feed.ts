@@ -4,7 +4,6 @@ import { ModalController } from 'ionic-angular';
 import { ReportDetailModalPage } from '../report-detail-modal/report-detail-modal';
 import { Denuncia } from '../../models/Denuncia';
 import { FirestoreProvider } from '../../providers/firestore/firestore';
-import { Observable } from 'rxjs';
 
 /**
  * Generated class for the UserFeedPage page.
@@ -20,7 +19,9 @@ import { Observable } from 'rxjs';
 })
 export class UserFeedPage {
 
-	filtro: any;
+  filtro: any;
+  reports: Denuncia[];
+  authors: any[];
 
   constructor(
     public navCtrl: NavController,
@@ -28,16 +29,21 @@ export class UserFeedPage {
     public modalCtrl: ModalController,
     public fire: FirestoreProvider
   ) {
+    this.fire.getDenuncias().subscribe(reports => {
+      this.reports = reports;
+    });
   }
 
   ionViewDidLoad() {
   }
 
-  getDenuncias() {
-    return this.fire.getDenuncias();
-  }
-
-  getUser(authorid: any) {
+  getUserName(authorid) {
+    // let userName;
+    // this.fire.getUsuario(authorid).subscribe(user => {
+    //   userName = user.apelido;
+    //   console.log(userName);
+    // });
+    // return userName;
   }
 
   getCategories(report) {
@@ -53,7 +59,6 @@ export class UserFeedPage {
   }
 
   presentReportDetail(report: any) {
-    this.fire.deleteUp(report, 'vinacmg');
   	let modal = this.modalCtrl.create(ReportDetailModalPage, { report: report });
   	modal.present();
   }

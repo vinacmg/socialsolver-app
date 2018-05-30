@@ -89,7 +89,7 @@ export class FirestoreProvider {
       denuncia.upped.splice(index, 1);
       this.denunciasCollection.doc(denuncia.id).update({
         upped: denuncia.upped,
-        ups: denuncia.ups+1
+        ups: denuncia.ups-1
       })
     } else throw 'user-has-not-upped';
   }

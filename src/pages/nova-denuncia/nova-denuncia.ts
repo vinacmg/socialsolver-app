@@ -65,6 +65,7 @@ export class NovaDenunciaPage {
       this.denuncia.data = new Date();
       this.denuncia.resolvido = false;
       this.denuncia.ups = 0;
+      this.denuncia.upped = [];
       this.denuncia.coord = new firebase.firestore.GeoPoint(this.reportLocation.lat(), this.reportLocation.lng());
 
       this.fire.addDenuncia(this.denuncia);

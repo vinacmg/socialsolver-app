@@ -13,6 +13,33 @@
 
 
 <ion-content padding>
+
+	<ion-card>
+		<ion-item>
+			<ion-label>Filtrar</ion-label>	
+			<ion-select [(ngModel)]="filter" (ionChange)="selectFilter()">
+				<ion-option value="MaisRecentes">Mais recentes</ion-option>
+				<ion-option value="MaisAntigos">Mais antigos</ion-option>
+				<ion-option value="MaisUps">Mais ups</ion-option>
+				<ion-option value="MenosUps">Menos ups</ion-option>
+				<ion-option value="TituloAZ">Título A-Z</ion-option>
+				<ion-option value="TituloZA">Título Z-A</ion-option>
+				<ion-option value="PorCategoria">Filtar categoria</ion-option>
+			</ion-select>
+		</ion-item>
+		<ion-item *ngIf="filter === 'PorCategoria'">
+				<ion-label>Categoria</ion-label>	
+				<ion-select [(ngModel)]="categoria" (ionChange)="selectCategoria()">
+						<ion-option value="todas">Todas</ion-option>
+					<ion-option value="agua">Água</ion-option>
+					<ion-option value="iluminacao">Iluminação</ion-option>
+					<ion-option value="saude">Saúde</ion-option>
+					<ion-option value="seguranca">Segurança</ion-option>
+					<ion-option value="transporte">Transporte</ion-option>
+				</ion-select>
+		</ion-item>
+	</ion-card>
+
 	<ion-card *ngFor="let report of reports" (click)="presentReportDetail(report)">
 		
 		<ion-item>

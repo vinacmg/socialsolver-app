@@ -148,10 +148,10 @@ export class FirestoreProvider {
   }
 
   filterTituloAsc() {
-    this.upsFilter$.next('asc');
+    this.tituloFilter$.next('asc');
   }
 
   filterTituloDesc() {
-    this.upsFilter$.next('desc');
+    this.tituloFilter$.next('desc');
   }
 }

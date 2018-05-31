@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { ViewController } from 'ionic-angular';
 import { FirestoreProvider } from '../../providers/firestore/firestore';
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
@@ -29,7 +29,8 @@ export class ReportDetailModalPage {
     public navParams: NavParams,
     public viewCtrl: ViewController,
     public fire: FirestoreProvider,
-    public auth: AuthenticationProvider
+    public auth: AuthenticationProvider,
+    public alertCtrl: AlertController
   ) {
     this.report = navParams.get('report');
   }
@@ -38,6 +39,35 @@ export class ReportDetailModalPage {
     this.fire.getComentarios(this.report).subscribe(commentsItem => {
       this.comments = commentsItem;
     });
+  }
+
+  remove() {
+    this.showAlert("Atenção", "Deseja excluir essa denúncia?");
+  }
+
+  showAlert(title, subTitle) {
+    let alert = this.alertCtrl.create({
+      title: title,
+      subTitle: subTitle,
+      buttons: [
+        {
+          text: "Sim",
+          handler: () => {
+            this.fire.deleteDenuncia(this.report);
+            this.dismiss();
+          }
+        },
+        {
+          text: "Não"
+        }
+      ]
+    });
+    alert.present();
+  }
+
+  isOwner() {
+    let user = this.auth.currentUser();
+    return this.report.autorid == user.uid;
   }
 
   up() {

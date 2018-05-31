@@ -36,7 +36,13 @@
 					<div>{{ comments.length }}</div>
 				</button>
 			</ion-col>
-			<ion-col center text-center>
+			<ion-col center text-center *ngIf="isOwner()">
+					<button ion-button icon-left clear small color="danger" (click)="remove()">
+						<ion-icon name="close"></ion-icon>
+						Remover
+					</button>
+				</ion-col>
+			<ion-col center text-center *ngIf="! isOwner()">
 				<button ion-button icon-left clear small color="danger" (click)="setReportMode(true)">
 					<ion-icon name="close"></ion-icon>
 					Denunciar

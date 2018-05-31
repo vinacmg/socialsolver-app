@@ -127,31 +127,52 @@ export class FirestoreProvider {
   }
 
   filterByCategoria(categoria: string|null) {
+    this.dataFilter$.next(null);
+    this.upsFilter$.next(null);
+    this.tituloFilter$.next(null);
     this.categoriaFilter$.next(categoria);
   }
 
   //FILTROS
   filterDataAsc() {
+    this.categoriaFilter$.next(null);
+    this.upsFilter$.next(null);
+    this.tituloFilter$.next(null);
     this.dataFilter$.next('asc'); 
   }
 
   filterDataDesc() {
+    this.categoriaFilter$.next(null);
+    this.upsFilter$.next(null);
+    this.tituloFilter$.next(null);
     this.dataFilter$.next('desc'); 
   }
 
   filterUpsAsc() {
+    this.categoriaFilter$.next(null);
+    this.dataFilter$.next(null);
+    this.tituloFilter$.next(null);
     this.upsFilter$.next('asc');
   }
 
   filterUpsDesc() {
+    this.categoriaFilter$.next(null);
+    this.dataFilter$.next(null);
+    this.tituloFilter$.next(null);
     this.upsFilter$.next('desc');
   }
 
   filterTituloAsc() {
+    this.categoriaFilter$.next(null);
+    this.upsFilter$.next(null);
+    this.dataFilter$.next(null);
     this.tituloFilter$.next('asc');
   }
 
   filterTituloDesc() {
+    this.categoriaFilter$.next(null);
+    this.upsFilter$.next(null);
+    this.dataFilter$.next(null);
     this.tituloFilter$.next('desc');
   }
 }

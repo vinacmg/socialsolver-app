@@ -19,7 +19,8 @@ import { FirestoreProvider } from '../../providers/firestore/firestore';
 })
 export class UserFeedPage {
 
-  filtro: any;
+  filter: any;
+  categoria: any;
   reports: Denuncia[];
   authors: any[];
 
@@ -35,6 +36,36 @@ export class UserFeedPage {
   }
 
   ionViewDidLoad() {
+  }
+
+  selectFilter() {
+    switch(this.filter) {
+      case 'MaisRecentes':
+        this.fire.filterDataDesc();
+        break;
+      case 'MaisAntigos':
+        this.fire.filterDataAsc();
+        break;
+      case 'MaisUps':
+        this.fire.filterUpsDesc();
+        break;
+      case 'MenosUps':
+        this.fire.filterUpsAsc();
+        break;
+      case 'TituloAZ':
+        this.fire.filterTituloAsc();
+        break;
+      case 'TituloZA':
+        this.fire.filterTituloDesc();
+        break;
+    }
+  }
+
+  selectCategoria() {
+    if (this.categoria === 'todas') {
+      this.categoria = null;
+    }
+    this.fire.filterByCategoria(this.categoria);
   }
 
   getUserName(authorid) {

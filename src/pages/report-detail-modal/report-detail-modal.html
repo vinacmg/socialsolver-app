@@ -76,8 +76,8 @@
 	<ion-card *ngIf="! reportMode">
 		<ion-card-content>
 			<ion-item>
-				<ion-input type="text" placeholder="Comentário..."></ion-input>
-				<button item-right ion-button icon-only clear small>
+				<ion-input type="text" placeholder="Comentário..." [(ngModel)]="comentario.texto"></ion-input>
+				<button item-right ion-button icon-only clear small (click)="addComentario()">
 					<ion-icon name="send"></ion-icon>
 				</button>
 			</ion-item>

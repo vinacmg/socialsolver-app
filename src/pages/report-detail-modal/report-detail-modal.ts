@@ -23,6 +23,7 @@ export class ReportDetailModalPage {
   report: any;
   reportMode: boolean = false;
   comments: Comentario[] = [];
+  comentario: Comentario;
 
   constructor(
     public navCtrl: NavController,
@@ -33,12 +34,25 @@ export class ReportDetailModalPage {
     public alertCtrl: AlertController
   ) {
     this.report = navParams.get('report');
+    this.comentario = {
+      texto: "",
+      data: new Date(),
+      autorid: 0
+    }
   }
 
   ionViewDidLoad() {
     this.fire.getComentarios(this.report).subscribe(commentsItem => {
       this.comments = commentsItem;
     });
+  }
+
+  addComentario() {
+    let user = this.auth.currentUser();
+    this.comentario.autorid = user.uid;
+    this.comentario.data = new Date();
+    
+    this.fire.addComentario(this.comentario, this.report.id);
   }
 
   remove() {

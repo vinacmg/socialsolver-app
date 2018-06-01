@@ -14,3 +14,18 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
+
+.file-input::-webkit-file-upload-button {
+    visibility: hidden;
+}
+.file-input::before {
+    content: 'Adicionar uma foto';
+    color: orange;
+    display: inline-block;
+    border: 1px solid orange;
+    border-radius: 3px;
+    padding: 5px 8px;
+    font-size: 10pt;
+    font-weight: 700;
+}
+

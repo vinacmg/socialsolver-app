@@ -18,6 +18,9 @@
 .file-input::-webkit-file-upload-button {
     visibility: hidden;
 }
+.file-input {
+    color: transparent;
+}
 .file-input::before {
     content: 'Adicionar uma foto';
     color: orange;

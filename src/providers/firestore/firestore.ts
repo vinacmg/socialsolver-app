@@ -64,6 +64,10 @@ export class FirestoreProvider {
     this.denunciasCollection.add(denuncia);
   }
 
+  addComentario(comentario: Comentario, denunciaid: string) {
+    this.firestore.collection(`denuncias/${denunciaid}/comentarios`).add(comentario);
+  }
+
   addUser(user: Usuario) {
     this.usuariosCollention.doc(user.id).set({
       apelido: user.apelido,
@@ -92,6 +96,10 @@ export class FirestoreProvider {
         ups: denuncia.ups-1
       })
     } else throw 'user-has-not-upped';
+  }
+
+  deleteComentario(denunciaid:string, comentarioid: string){
+    this.firestore.doc(`denuncias/${denunciaid}/comentarios/${comentarioid}`).delete();
   }
 
   deleteDenuncia(denuncia: Denuncia) {

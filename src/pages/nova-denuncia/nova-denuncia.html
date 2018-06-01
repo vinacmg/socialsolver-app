@@ -32,10 +32,7 @@
 			<ion-input type="text" placeholder="Descrição" [(ngModel)]="description"></ion-input>
 		</ion-item>
 		<ion-item>
-			<button ion-button icon-left block outline color="orange">
-				<ion-icon name="camera"></ion-icon>
-				Adicionar foto
-			</button> 
+			<input type="file" class="file-input">
 			<button ion-button icon-left block outline (click)="verClassificacoes()" color="orange">
 				<ion-icon name="checkbox-outline"></ion-icon>
 				Classificações

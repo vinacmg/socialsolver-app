@@ -58,8 +58,8 @@ export class RegisterUserPage {
 	}
 
   validate() {
-  	if (! this.nome || ! this.email || ! this.senha) {
-  		this.showAlert("Atenção", "Preencha todos os campos.");
+  	if (! this.nome || ! this.email || ! this.senha || ! this.img) {
+  		this.showAlert("Atenção", "Preencha todos os campos e selecione uma foto");
   		return false;
   	}
   	const format = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;

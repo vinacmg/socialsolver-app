@@ -66,7 +66,7 @@ export class FirestoreProvider {
     this.denunciasCollection.add(denuncia)
     .then(d => {
       let url:string;
-      that.storage.uploadFile(`denuncias/${denuncia.id}`, img).subscribe(u => {
+      that.storage.uploadFile(`denuncias/${d.id}`, img).subscribe(u => {
         url = u;
         d.update({fotoUrl: url})
       });

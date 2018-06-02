@@ -14,11 +14,8 @@ export class StorageProvider {
 
   uploadFile(filePath: string,file: File) {
     const ref = this.storage.ref(filePath);
-    try {
-      ref.put(file);
-    } catch(error) {
-      console.log(error);
-    }
+    const task = ref.put(file);
+    return task.downloadURL();
   }
 
   deleteFile(filePath: string) {

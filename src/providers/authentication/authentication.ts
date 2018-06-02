@@ -2,12 +2,14 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { FirestoreProvider } from '../firestore/firestore';
 import { Usuario } from '../../models/Usuario';
+import { StorageProvider } from '../storage/storage';
 @Injectable()
 export class AuthenticationProvider {
 
   constructor(
     public afAuth: AngularFireAuth,
-    private firestore: FirestoreProvider
+    private firestore: FirestoreProvider,
+    private storage: StorageProvider
   ) { }
 
   login(email: string, password: string) {
@@ -26,15 +28,18 @@ export class AuthenticationProvider {
     return this.afAuth.auth.currentUser;
   }
 
-  createUser(email: string, password: string, user: Usuario) {
+  createUser(email: string, password: string, user: Usuario, img?: File) {
     return new Promise((resolve, reject) => {
+      const that = this;
       const afAuth = this.afAuth;
       const firestore = this.firestore;
       const u = user;
       afAuth.auth.createUserWithEmailAndPassword(email, password)
-        .then(function() {
-          u.id = afAuth.auth.currentUser.uid;
-          firestore.addUser(u);
+        .then(user => {
+          user.updateProfile({
+            displayName: user.apelido, 
+            photoURL: that.storage.uploadFile(`perfis/${user.uid}`, img)
+          });
           return resolve();
         })
         .catch(function(error) {

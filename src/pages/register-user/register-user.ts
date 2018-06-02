@@ -20,6 +20,7 @@ export class RegisterUserPage {
 	nome: string;
 	email: string;
 	senha: string;
+	img: File|null = null;
 	usuario: Usuario = {
 		id: 0,
 		fotoUrl: "",
@@ -44,7 +45,7 @@ export class RegisterUserPage {
 	
 	createUser() {
 		this.usuario.apelido = this.nome;
-		this.auth.createUser(this.email, this.senha, this.usuario)
+		this.auth.createUser(this.email, this.senha, this.usuario, this.img)
 			.then(() => {
 				this.showAlert("Bem-vindo", "Seu cadastro foi efetuado com sucesso.");
 				this.navCtrl.pop();
@@ -87,4 +88,13 @@ export class RegisterUserPage {
 		}
 	}
 
+	uploadFile(event) {
+		if(event.target.files){
+			if(event.target.files.length > 1){
+				alert("Selecione apenas um arquivo!");
+			} else {
+				this.img = event.target.files[0];
+			}
+		}
+	}
 }

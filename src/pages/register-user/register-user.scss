@@ -1,3 +1,18 @@
 page-register-user {
-
+    .file-input::-webkit-file-upload-button {
+        visibility: hidden;
+    }
+    .file-input {
+        color: transparent;
+    }
+    .file-input::before {
+        content: 'Adicionar uma foto';
+        color: orange;
+        display: inline-block;
+        border: 1px solid orange;
+        border-radius: 3px;
+        padding: 5px 8px;
+        font-size: 10pt;
+        font-weight: 700;
+    }
 }

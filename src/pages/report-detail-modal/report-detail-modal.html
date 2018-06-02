@@ -60,6 +60,13 @@
 		</ion-row>
 	</ion-card>
 
+	<ion-card>
+		<button ion-button icon-left full clear color="secondary" *ngIf="isOwner()">
+			<ion-icon name="checkmark"></ion-icon>
+			Marcar como resolvida
+		</button>
+	</ion-card>
+
 	<ion-card *ngIf="reportMode">
 		<ion-item>
 			<ion-input color="danger" type="text" placeholder="Descreva o motivo da denúncia"></ion-input>

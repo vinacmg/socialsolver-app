@@ -4,6 +4,7 @@ import { ModalController } from 'ionic-angular';
 import { ReportDetailModalPage } from '../report-detail-modal/report-detail-modal';
 import { Denuncia } from '../../models/Denuncia';
 import { FirestoreProvider } from '../../providers/firestore/firestore';
+import { AuthenticationProvider } from '../../providers/authentication/authentication';
 
 /**
  * Generated class for the UserFeedPage page.
@@ -28,6 +29,7 @@ export class UserFeedPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     public modalCtrl: ModalController,
+    public auth: AuthenticationProvider,
     public fire: FirestoreProvider
   ) {
     this.fire.getDenuncias().subscribe(reports => {
@@ -36,6 +38,17 @@ export class UserFeedPage {
   }
 
   ionViewDidLoad() {
+  }
+
+  up(report) {
+    let user = this.auth.currentUser();
+    if (report.upped.indexOf(user.uid) > -1) {
+      this.fire.deleteUp(report, user.uid);
+      report.ups--;
+      return;
+    }
+    this.fire.addUp(report, user.uid);
+    report.ups++;
   }
 
   selectFilter() {

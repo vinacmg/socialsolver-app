@@ -37,7 +37,9 @@ export class ReportDetailModalPage {
     this.comentario = {
       texto: "",
       data: new Date(),
-      autorid: 0
+      autorid: 0,
+      autornome: "",
+      autorfoto: ""
     }
   }
 
@@ -55,6 +57,8 @@ export class ReportDetailModalPage {
   addComentario() {
     let user = this.auth.currentUser();
     this.comentario.autorid = user.uid;
+    this.comentario.autornome = user.displayName;
+    this.comentario.autorfoto = user.photoURL;
     this.comentario.data = new Date();
     
     this.fire.addComentario(this.comentario, this.report.id);

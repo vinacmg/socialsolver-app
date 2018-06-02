@@ -48,7 +48,9 @@
 			</ion-avatar>
 			<h2>{{ report.autornome }}</h2>
 			<p>{{ report.data | date: 'dd/MM/yyyy HH:mm' }}</p>
-		</ion-item>
+    </ion-item>
+    
+    <img [src]="report.fotoUrl">
 
 		<ion-card-content>
 			<ion-card-title>{{ report.titulo }}</ion-card-title>

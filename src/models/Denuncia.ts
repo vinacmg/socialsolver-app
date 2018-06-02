@@ -2,6 +2,7 @@ export interface Denuncia {
   id?:any;
   autorid?:any;
   titulo?:string;
+  fotoUrl?:string;
   categorias?:{
     agua:boolean,
     seguranca:boolean, 

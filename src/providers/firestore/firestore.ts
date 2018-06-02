@@ -8,6 +8,7 @@ import { combineLatest } from 'rxjs/observable/combineLatest';
 import { map } from 'rxjs/operators';
 import { switchMap } from 'rxjs/operators';
 import { AngularFireAuth } from 'angularfire2/auth';
+import { StorageProvider } from '../storage/storage';
 
 @Injectable()
 export class FirestoreProvider {
@@ -29,7 +30,7 @@ export class FirestoreProvider {
   usuariosCollention: AngularFirestoreCollection<Usuario>;
   usuario: Observable<Usuario>;
 
-  constructor(public firestore: AngularFirestore, private afAuth: AngularFireAuth) {
+  constructor(public firestore: AngularFirestore, private afAuth: AngularFireAuth, private storage: StorageProvider) {
     this.categoriaFilter$ = new BehaviorSubject(null);
     this.dataFilter$ = new BehaviorSubject(null);
     this.denunciaFilter$ = new BehaviorSubject(null);
@@ -60,8 +61,16 @@ export class FirestoreProvider {
     );
   }
 
-  addDenuncia(denuncia: Denuncia) {
-    this.denunciasCollection.add(denuncia);
+  addDenuncia(denuncia: Denuncia, img: File) {
+    const that = this;
+    this.denunciasCollection.add(denuncia)
+    .then(d => {
+      let url:string;
+      that.storage.uploadFile(`denuncias/${denuncia.id}`, img).subscribe(u => {
+        url = u;
+        d.update({fotoUrl: url})
+      });
+    });
   }
 
   addComentario(comentario: Comentario, denunciaid: string) {

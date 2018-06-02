@@ -36,10 +36,14 @@ export class AuthenticationProvider {
       const u = user;
       afAuth.auth.createUserWithEmailAndPassword(email, password)
         .then(user => {
-          user.updateProfile({
-            displayName: user.apelido, 
-            photoURL: that.storage.uploadFile(`perfis/${user.uid}`, img)
-          });
+          let url:string;
+          that.storage.uploadFile(`perfis/${user.uid}`, img).subscribe(u => {
+            url = u;
+            user.updateProfile({
+              displayName: user.apelido, 
+              photoURL: url
+            });
+          }); 
           return resolve();
         })
         .catch(function(error) {

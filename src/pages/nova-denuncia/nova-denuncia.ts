@@ -29,6 +29,7 @@ export class NovaDenunciaPage {
   params: any;
   reportLocation: any = null;
   denuncia: Denuncia = {};
+  img: File|null = null;
 
   constructor(
     public navCtrl: NavController,
@@ -68,7 +69,7 @@ export class NovaDenunciaPage {
       this.denuncia.upped = [];
       this.denuncia.coord = new firebase.firestore.GeoPoint(this.reportLocation.lat(), this.reportLocation.lng());
 
-      this.fire.addDenuncia(this.denuncia);
+      this.fire.addDenuncia(this.denuncia, this.img); 
       this.showAlert("Muito bem!", "Sua denúncia foi cadastrada");
       this.navCtrl.setRoot(MapPage);
     }
@@ -129,4 +130,14 @@ export class NovaDenunciaPage {
   	});
   	alert.present();
   }
+
+  uploadFile(event) {
+		if(event.target.files){
+			if(event.target.files.length > 1){
+				alert("Selecione apenas um arquivo!");
+			} else {
+				this.img = event.target.files[0];
+			}
+		}
+	}
 }

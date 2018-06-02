@@ -18,6 +18,15 @@
 <ion-content padding>
 
 	<ion-card>
+
+		<ion-item>
+			<ion-avatar item-start>
+				<img src="">
+			</ion-avatar>
+			<h2>Nome do usuário</h2>
+			<p>{{ report.data | date: 'dd/MM/yyyy HH:mm' }}</p>
+		</ion-item>
+
 		<img src="../../assets/imgs/logo.png">
 		<ion-card-content>
 			<ion-card-title>{{ report.titulo }}</ion-card-title>

@@ -3,6 +3,7 @@ import { AlertController, IonicPage, NavController, NavParams } from 'ionic-angu
 import  { Usuario } from "../../models/Usuario";
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
 import { UserFeedPage } from '../user-feed/user-feed';
+import { LoginPage } from '../login/login';
 
 /**
  * Generated class for the RegisterUserPage page.
@@ -49,7 +50,7 @@ export class RegisterUserPage {
 		this.auth.createUser(this.email, this.senha, this.usuario, this.img)
 			.then(() => {
 				this.showAlert("Bem-vindo", "Seu cadastro foi efetuado com sucesso.");
-				this.navCtrl.setRoot(UserFeedPage);
+				this.navCtrl.setRoot(LoginPage);
 			})
 			.catch((error) => {
 				this.showAlert("Atenção", this.getError(error));

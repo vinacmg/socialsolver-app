@@ -32,14 +32,10 @@ export class AuthenticationProvider {
     return new Promise((resolve, reject) => {
       const that = this;
       const afAuth = this.afAuth;
-      const firestore = this.firestore;
-      const u = user;
       afAuth.auth.createUserWithEmailAndPassword(email, password)
-        .then(user => {
-          let url:string;
-          that.storage.uploadFile(`perfis/${user.uid}`, img).subscribe(u => {
-            url = u;
-            user.updateProfile({
+        .then(newUser => {
+          that.storage.uploadFile(`perfis/${newUser.uid}`, img).subscribe(url => {
+            newUser.updateProfile({
               displayName: user.apelido, 
               photoURL: url
             });

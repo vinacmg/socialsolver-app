@@ -56,12 +56,13 @@ export class NovaDenunciaPage {
 
   save() {
     if(this.validate()) {
-      this.denuncia.autorid = this.auth.currentUser().uid;
+      let user = this.auth.currentUser();
+      this.denuncia.autorid = user.uid;
+      this.denuncia.autornome = user.displayName;
+      this.denuncia.autorfoto = user.photoURL;
+      
       this.denuncia.titulo = this.title;
       this.addCategories();
-
-      console.log(this.denuncia.categorias);
-
       this.denuncia.descricao = this.description;
       this.denuncia.data = new Date();
       this.denuncia.resolvido = false;

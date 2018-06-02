@@ -44,9 +44,9 @@
 		
 		<ion-item>
 			<ion-avatar item-start>
-				<img src="../../assets/imgs/logo.png">
+				<img [src]="report.autorfoto">
 			</ion-avatar>
-			<h2>{{ report.authorid }}</h2>
+			<h2>{{ report.autornome }}</h2>
 			<p>{{ report.data | date: 'dd/MM/yyyy HH:mm' }}</p>
 		</ion-item>
 

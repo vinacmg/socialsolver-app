@@ -22,6 +22,7 @@
 		</ion-item>
 		<ion-item>
 			<input type="file" accept=".png, .jpg, .jpeg" class="file-input" (change)="uploadFile($event)">
+			<p *ngIf="img">Imagem selecionada!</p>
 		</ion-item>
 		<ion-item>
 			<ion-label floating>E-mail:</ion-label>

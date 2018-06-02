@@ -32,7 +32,10 @@
 			<ion-input type="text" placeholder="Descrição" [(ngModel)]="description"></ion-input>
 		</ion-item>
 		<ion-item>
-			<input type="file" accept=".png, .jpg, .jpeg" class="file-input" (change)="uploadFile($event)">
+				<input type="file" accept=".png, .jpg, .jpeg" class="file-input" (change)="uploadFile($event)">
+				<p *ngIf="img">Imagem selecionada!</p>
+		</ion-item>
+		<ion-item>
 			<button ion-button icon-left block outline (click)="verClassificacoes()" color="orange">
 				<ion-icon name="checkbox-outline"></ion-icon>
 				Classificações

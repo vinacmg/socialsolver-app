@@ -81,15 +81,6 @@ export class UserFeedPage {
     this.fire.filterByCategoria(this.categoria);
   }
 
-  getUserName(authorid) {
-    // let userName;
-    // this.fire.getUsuario(authorid).subscribe(user => {
-    //   userName = user.apelido;
-    //   console.log(userName);
-    // });
-    // return userName;
-  }
-
   getCategories(report) {
     let categorias = [];
 

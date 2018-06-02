@@ -1,6 +1,8 @@
 export interface Denuncia {
   id?:any;
   autorid?:any;
+  autornome?:string;
+  autorfoto?:string;
   titulo?:string;
   fotoUrl?:string;
   categorias?:{

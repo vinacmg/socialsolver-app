@@ -44,6 +44,11 @@ export class ReportDetailModalPage {
   ionViewDidLoad() {
     this.fire.getComentarios(this.report).subscribe(commentsItem => {
       this.comments = commentsItem;
+      this.comments.sort(function(a, b) {
+        if (a.data > b.data) return -1;
+        if (a.data < b.data) return 1;
+        return 0;
+      });
     });
   }
 

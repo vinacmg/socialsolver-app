@@ -112,8 +112,12 @@ export class FirestoreProvider {
   }
 
   deleteDenuncia(denuncia: Denuncia) {
-    this.denunciaDoc = this.firestore.doc(`denuncias/${denuncia.id}`);
-    this.denunciaDoc.delete();
+    const that = this;
+    const id = denuncia.id;
+    this.denunciaDoc = this.firestore.doc(`denuncias/${id}`);
+    this.denunciaDoc.delete().then(() => {
+      this.storage.deleteFile(`denuncias/${id}`);
+    });
   }
 
   getComentarios(denuncia: Denuncia) {

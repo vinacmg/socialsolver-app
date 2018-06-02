@@ -44,7 +44,7 @@
 		
 		<ion-item>
 			<ion-avatar item-start>
-				<img ngSrc="report.autorfoto">
+				<img [src]="report.autorfoto">
 			</ion-avatar>
 			<h2>{{ report.autornome }}</h2>
 			<p>{{ report.data | date: 'dd/MM/yyyy HH:mm' }}</p>

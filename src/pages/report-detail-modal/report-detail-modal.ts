@@ -34,13 +34,7 @@ export class ReportDetailModalPage {
     public alertCtrl: AlertController
   ) {
     this.report = navParams.get('report');
-    this.comentario = {
-      texto: "",
-      data: new Date(),
-      autorid: 0,
-      autornome: "",
-      autorfoto: ""
-    }
+    this.initializeComentario();
   }
 
   ionViewDidLoad() {
@@ -54,6 +48,16 @@ export class ReportDetailModalPage {
     });
   }
 
+  initializeComentario() {
+    this.comentario = {
+      texto: "",
+      data: new Date(),
+      autorid: 0,
+      autornome: "",
+      autorfoto: ""
+    }
+  }
+
   addComentario() {
     let user = this.auth.currentUser();
     this.comentario.autorid = user.uid;
@@ -62,6 +66,7 @@ export class ReportDetailModalPage {
     this.comentario.data = new Date();
     
     this.fire.addComentario(this.comentario, this.report.id);
+    this.initializeComentario();
   }
 
   remove() {

@@ -7,7 +7,6 @@ import { LoginPage } from '../pages/login/login';
 import { NovaDenunciaPage } from '../pages/nova-denuncia/nova-denuncia';
 import { MapPage } from '../pages/map/map';
 import { UserFeedPage } from '../pages/user-feed/user-feed';
-import { SettingsPage } from '../pages/settings/settings';
 
 @Component({
   templateUrl: 'app.html'
@@ -17,7 +16,6 @@ export class MyApp {
   mapPage: any = MapPage;
   userFeedPage: any = UserFeedPage;
   novaDenunciaPage: any = NovaDenunciaPage;
-  settingsPage: any = SettingsPage;
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
     this.rootPage = LoginPage;

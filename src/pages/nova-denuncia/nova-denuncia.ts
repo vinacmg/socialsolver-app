@@ -94,8 +94,8 @@ export class NovaDenunciaPage {
   }
 
   validate() {
-    if (! this.title || ! this.description || this.classSelecionadas.length == 0) {
-      this.showAlert("Atenção", "Preencha todos os campos");
+    if (! this.title || ! this.description || this.classSelecionadas.length == 0 || ! this.img) {
+      this.showAlert("Atenção", "Preencha todos os campos e selecione uma foto");
       return false;
     }
     return true;

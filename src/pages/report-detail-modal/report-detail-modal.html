@@ -81,6 +81,9 @@
 
 	<ion-card *ngFor="let comment of comments">
 		<ion-item>
+			<ion-avatar item-start>
+				<img [src]="comment.autorfoto">
+			</ion-avatar>
 			<h2>{{ comment.autornome }}</h2>
 			<p>{{ comment.data | date: 'dd/MM/yyyy HH:mm' }}</p>
 			<button *ngIf="comment.autorid == auth.currentUser().uid" color="dark" item-right ion-button icon-only clear small (click)="deleteComment(comment)">

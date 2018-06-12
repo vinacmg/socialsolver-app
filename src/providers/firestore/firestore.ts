@@ -74,7 +74,16 @@ export class FirestoreProvider {
   }
 
   addComentario(comentario: Comentario, denunciaid: string) {
-    this.firestore.collection(`denuncias/${denunciaid}/comentarios`).add(comentario);
+    const that = this;
+    return new Promise((resolve, reject) => {
+      that.firestore.collection(`denuncias/${denunciaid}/comentarios`).add(comentario)
+        .then(() => {
+          return resolve();
+        })
+        .catch(function(error) {
+          return reject(error.code);
+        });
+    });
   }
 
   addUser(user: Usuario) {

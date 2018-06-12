@@ -111,4 +111,23 @@ export class ReportDetailModalPage {
   sendReport() {
   }
 
+  deleteComment(comment: Comentario) {
+    let alert = this.alertCtrl.create({
+      title: 'Deletar',
+      subTitle: 'Deletar comentário?',
+      buttons: [
+        {
+          text: "Sim",
+          handler: () => {
+            this.fire.deleteComentario(this.report.id, comment.id);
+          }
+        },
+        {
+          text: "Não"
+        }
+      ]
+    });
+    alert.present();
+  }
+
 }

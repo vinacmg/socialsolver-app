@@ -81,8 +81,11 @@
 
 	<ion-card *ngFor="let comment of comments">
 		<ion-item>
-			<h2>Nome</h2>
+			<h2>{{ comment.autornome }}</h2>
 			<p>{{ comment.data | date: 'dd/MM/yyyy HH:mm' }}</p>
+			<button *ngIf="comment.autorid == auth.currentUser().uid" color="dark" item-right ion-button icon-only clear small (click)="deleteComment(comment)">
+				<ion-icon name="close"></ion-icon>
+			</button>
 		</ion-item>
 		<ion-card-content>
 			<p>{{ comment.texto }}</p>

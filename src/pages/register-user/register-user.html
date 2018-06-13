@@ -21,7 +21,6 @@
 			<ion-input type="text" [(ngModel)]="nome"></ion-input>
 		</ion-item>
 		<ion-item>
-			{{ photo }}
 			<img src="{{ photo }}">
 			<button ion-button color="orange" (click)="openGallery()">Abrir galeria</button>
 			<p *ngIf="img">Imagem selecionada!</p>

@@ -24,14 +24,12 @@ export class RegisterUserPage {
 	nome: string;
 	email: string;
 	senha: string;
-	img: File|null = null;
+	img: any|null = null;
 	usuario: Usuario = {
 		id: 0,
 		fotoUrl: "",
 		apelido: ""
   };
-  
-  photo: any;
 
   constructor(
 		public navCtrl: NavController,
@@ -99,16 +97,47 @@ export class RegisterUserPage {
   openGallery() {
     const options: CameraOptions = {
       quality: 70,
-      destinationType: this.camera.DestinationType.FILE_URI,
-      encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE,
-      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY
+      destinationType: this.camera.DestinationType.DATA_URL,
+      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+      saveToPhotoAlbum: false
     };
     this.camera.getPicture(options).then((imageData) => {
-      this.photo = imageData;
+      var url = 'data:image/jpeg;base64,' + imageData;
+      this.createImage(url);
     }, (err) => {
       console.log(err);
     });
+  }
+  
+  b64toBlob(b64Data, contentType) {
+    contentType = contentType || '';
+    var sliceSize = 512;
+
+    var byteCharacters = atob(b64Data);
+    var byteArrays = [];
+
+    for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+        var slice = byteCharacters.slice(offset, offset + sliceSize);
+
+        var byteNumbers = new Array(slice.length);
+        for (var i = 0; i < slice.length; i++) {
+            byteNumbers[i] = slice.charCodeAt(i);
+        }
+
+        var byteArray = new Uint8Array(byteNumbers);
+
+        byteArrays.push(byteArray);
+    }
+    var blob = new Blob(byteArrays, {type: contentType});
+    return blob;
+  }
+
+  createImage(url) {
+    var block = url.split(";");
+    var contentType = block[0].split(":")[1];
+    var realData = block[1].split(",")[1];
+    var blob = this.b64toBlob(realData, contentType);
+    this.img = blob;
   }
 
 	uploadFile(event) {

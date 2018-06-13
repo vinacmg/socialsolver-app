@@ -84,4 +84,5 @@
     <plugin name="cordova-plugin-telerik-imagepicker" spec="~2.2.1">
         <variable name="PHOTO_LIBRARY_USAGE_DESCRIPTION" value="Get photos" />
     </plugin>
+    <plugin name="cordova-plugin-camera" spec="~4.0.3" />
 </widget>

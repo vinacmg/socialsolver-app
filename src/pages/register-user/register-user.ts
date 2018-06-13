@@ -5,6 +5,7 @@ import { AuthenticationProvider } from '../../providers/authentication/authentic
 import { UserFeedPage } from '../user-feed/user-feed';
 import { LoginPage } from '../login/login';
 import { ImagePicker } from '@ionic-native/image-picker';
+import { Camera, CameraOptions } from '@ionic-native/camera';
 
 /**
  * Generated class for the RegisterUserPage page.
@@ -28,14 +29,17 @@ export class RegisterUserPage {
 		id: 0,
 		fotoUrl: "",
 		apelido: ""
-	};
+  };
+  
+  photo: any;
 
   constructor(
 		public navCtrl: NavController,
 		public navParams: NavParams,
 		public alertCtrl: AlertController,
     public auth: AuthenticationProvider,
-    public imagePicker: ImagePicker
+    public imagePicker: ImagePicker,
+    public camera: Camera
 	) {}
 
   ionViewDidLoad() {
@@ -93,13 +97,16 @@ export class RegisterUserPage {
   }
   
   openGallery() {
-    let options = {
-      maximumImagesCount: 15
+    const options: CameraOptions = {
+      quality: 70,
+      destinationType: this.camera.DestinationType.DATA_URL,
+      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+      saveToPhotoAlbum: false
     };
-    this.imagePicker.getPictures(options).then((results) => {
-      for (var i = 0; i < results.length; i++) {
-        console.log(results[i]);
-      }
+    this.camera.getPicture(options).then((imageData) => {
+      this.photo = 'data:image/jpeg;base64,' + imageData;
+    }, (err) => {
+      console.log(err);
     });
   }
 

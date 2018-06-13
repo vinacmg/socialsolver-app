@@ -27,6 +27,7 @@ import { AuthenticationProvider } from '../providers/authentication/authenticati
 import { StorageProvider } from '../providers/storage/storage';
 import { Geolocation } from '@ionic-native/geolocation';
 import { ImagePicker } from '@ionic-native/image-picker';
+import { Camera } from '@ionic-native/camera';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyCUr8wEpToFZ3UMnw3Kj8OAYYpIzRicIhk",
@@ -82,6 +83,7 @@ export const firebaseConfig = {
     FirestoreProvider,
     AuthenticationProvider,
     ImagePicker,
+    Camera,
     StorageProvider,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]

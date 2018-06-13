@@ -4,6 +4,7 @@ import  { Usuario } from "../../models/Usuario";
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
 import { UserFeedPage } from '../user-feed/user-feed';
 import { LoginPage } from '../login/login';
+import { ImagePicker } from '@ionic-native/image-picker';
 
 /**
  * Generated class for the RegisterUserPage page.
@@ -33,7 +34,8 @@ export class RegisterUserPage {
 		public navCtrl: NavController,
 		public navParams: NavParams,
 		public alertCtrl: AlertController,
-		public auth: AuthenticationProvider
+    public auth: AuthenticationProvider,
+    public imagePicker: ImagePicker
 	) {}
 
   ionViewDidLoad() {
@@ -88,7 +90,18 @@ export class RegisterUserPage {
 			case "auth/weak-password":
 				return "A senha deve conter pelo menos 6 caracteres";
 		}
-	}
+  }
+  
+  openGallery() {
+    let options = {
+      maximumImagesCount: 15
+    };
+    this.imagePicker.getPictures(options).then((results) => {
+      for (var i = 0; i < results.length; i++) {
+        console.log(results[i]);
+      }
+    });
+  }
 
 	uploadFile(event) {
 		if(event.target.files){

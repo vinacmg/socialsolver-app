@@ -21,7 +21,8 @@
 			<ion-input type="text" [(ngModel)]="nome"></ion-input>
 		</ion-item>
 		<ion-item>
-			<input type="file" accept=".png, .jpg, .jpeg" class="file-input" (change)="uploadFile($event)">
+			<!-- <input type="file" accept=".png, .jpg, .jpeg" class="file-input" (change)="uploadFile($event)"> -->
+			<button ion-button color="orange" (click)="openGallery()">Abrir galeria</button>
 			<p *ngIf="img">Imagem selecionada!</p>
 		</ion-item>
 		<ion-item>

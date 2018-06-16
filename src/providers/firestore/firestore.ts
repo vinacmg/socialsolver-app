@@ -7,7 +7,6 @@ import { Observable,  BehaviorSubject } from 'rxjs';
 import { combineLatest } from 'rxjs/observable/combineLatest';
 import { map } from 'rxjs/operators';
 import { switchMap } from 'rxjs/operators';
-import { AngularFireAuth } from 'angularfire2/auth';
 import { StorageProvider } from '../storage/storage';
 
 @Injectable()
@@ -30,7 +29,7 @@ export class FirestoreProvider {
   usuariosCollention: AngularFirestoreCollection<Usuario>;
   usuario: Observable<Usuario>;
 
-  constructor(public firestore: AngularFirestore, private afAuth: AngularFireAuth, private storage: StorageProvider) {
+  constructor(public firestore: AngularFirestore, private storage: StorageProvider) {
     this.categoriaFilter$ = new BehaviorSubject(null);
     this.dataFilter$ = new BehaviorSubject(null);
     this.denunciaFilter$ = new BehaviorSubject(null);
@@ -121,7 +120,6 @@ export class FirestoreProvider {
   }
 
   deleteDenuncia(denuncia: Denuncia) {
-    const that = this;
     const id = denuncia.id;
     this.denunciaDoc = this.firestore.doc(`denuncias/${id}`);
     this.denunciaDoc.delete().then(() => {

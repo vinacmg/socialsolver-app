@@ -1,5 +1,12 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { AlertController, IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
+import {
+  AlertController,
+  IonicPage,
+  NavController,
+  NavParams,
+  ModalController,
+  ToastController
+} from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
 import { Denuncia } from '../../models/Denuncia';
 
@@ -40,7 +47,8 @@ export class MapPage {
     public alertCtrl: AlertController, 
     private geolocation: Geolocation,
     private firestore: FirestoreProvider,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private toastCtrl: ToastController
   ) {
     this.novaDenuncia = NovaDenunciaPage;
     this.criandoDenuncia = this.navParams.get('criandoDenuncia');
@@ -61,6 +69,17 @@ export class MapPage {
   }
 
   ionViewDidLoad() {
+    if (this.criandoDenuncia) {
+      this.presentToast();
+    }
+  }
+
+  presentToast() {
+    const toast = this.toastCtrl.create({
+      message: "Adicione um marcador clicando no mapa. Remova o marcador clicando sobre ele",
+      duration: 7000
+    });
+    toast.present();
   }
 
   ionViewDidEnter() {

@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { FirestoreProvider } from '../firestore/firestore';
 import { Usuario } from '../../models/Usuario';
 import { StorageProvider } from '../storage/storage';
 @Injectable()
@@ -8,7 +7,6 @@ export class AuthenticationProvider {
 
   constructor(
     public afAuth: AngularFireAuth,
-    private firestore: FirestoreProvider,
     private storage: StorageProvider
   ) { }
 

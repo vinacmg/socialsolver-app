@@ -3,7 +3,6 @@ import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angu
 import { ViewController } from 'ionic-angular';
 import { FirestoreProvider } from '../../providers/firestore/firestore';
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
-import { Observable } from 'rxjs';
 import { Comentario } from '../../models/Comentario';
 
 /**

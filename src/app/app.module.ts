@@ -8,17 +8,14 @@ import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireStorageModule } from 'angularfire2/storage';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 
-import { LoginPage } from '../pages/login/login';
-import { RegisterUserPage } from '../pages/register-user/register-user';
-import { AboutPage } from '../pages/about/about';
-import { ContactPage } from '../pages/contact/contact';
+import { LoginPageModule } from '../pages/login/login.module';
+import { RegisterUserPageModule } from '../pages/register-user/register-user.module';
 import { HomePage } from '../pages/home/home';
-import { TabsPage } from '../pages/tabs/tabs';
-import { MapPage } from '../pages/map/map';
-import { NovaDenunciaPage } from '../pages/nova-denuncia/nova-denuncia';
-import { UserFeedPage } from '../pages/user-feed/user-feed';
-import { ReportDetailModalPage } from '../pages/report-detail-modal/report-detail-modal';
-import { SettingsPage } from '../pages/settings/settings';
+import { MapPageModule } from '../pages/map/map.module';
+import { NovaDenunciaPageModule } from '../pages/nova-denuncia/nova-denuncia.module';
+import { UserFeedPageModule } from '../pages/user-feed/user-feed.module';
+import { ReportDetailModalPageModule } from '../pages/report-detail-modal/report-detail-modal.module';
+import { SettingsPageModule } from '../pages/settings/settings.module';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -41,17 +38,7 @@ export const firebaseConfig = {
 @NgModule({
   declarations: [
     MyApp,
-    LoginPage,
-    RegisterUserPage,
-    AboutPage,
-    ContactPage,
     HomePage,
-    TabsPage,
-    MapPage,
-    NovaDenunciaPage,
-    UserFeedPage,
-    ReportDetailModalPage,
-    SettingsPage
   ],
   imports: [
     BrowserModule,
@@ -59,22 +46,19 @@ export const firebaseConfig = {
     AngularFireModule.initializeApp(firebaseConfig, 'socialsolver-app'),
     AngularFirestoreModule,
     AngularFireStorageModule,
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    LoginPageModule,
+    RegisterUserPageModule,
+    MapPageModule,
+    NovaDenunciaPageModule,
+    UserFeedPageModule,
+    ReportDetailModalPageModule,
+    SettingsPageModule,
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    LoginPage,
-    RegisterUserPage,
-    AboutPage,
-    ContactPage,
     HomePage,
-    TabsPage,
-    MapPage,
-    NovaDenunciaPage,
-    UserFeedPage,
-    ReportDetailModalPage,
-    SettingsPage
   ],
   providers: [
     StatusBar,

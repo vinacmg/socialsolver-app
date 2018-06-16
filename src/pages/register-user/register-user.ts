@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { AlertController, IonicPage, NavController, NavParams } from 'ionic-angular';
 import  { Usuario } from "../../models/Usuario";
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
-import { UserFeedPage } from '../user-feed/user-feed';
 import { LoginPage } from '../login/login';
 import { ImagePicker } from '@ionic-native/image-picker';
 import { Camera, CameraOptions } from '@ionic-native/camera';

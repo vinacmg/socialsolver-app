@@ -36,13 +36,13 @@
 			<ion-col>
 				<button ion-button icon-left clear small (click)="up()">
 					<ion-icon color="primary" name="thumbs-up"></ion-icon>
-					<div>{{ report.ups }}</div>
+					<div>{{ report.ups }} UPS</div>
 				</button>
 			</ion-col>
 			<ion-col>
 				<button ion-button icon-left clear small>
 					<ion-icon name="text"></ion-icon>
-					<div>{{ comments.length }}</div>
+					<div>{{ comments.length }} COMENTÁRIOS</div>
 				</button>
 			</ion-col>
 			<ion-col center text-center *ngIf="isOwner()">
@@ -51,20 +51,7 @@
 						Remover
 					</button>
 				</ion-col>
-			<ion-col center text-center *ngIf="! isOwner()">
-				<button ion-button icon-left clear small color="danger" (click)="setReportMode(true)">
-					<ion-icon name="close"></ion-icon>
-					Denunciar
-				</button>
-			</ion-col>
 		</ion-row>
-	</ion-card>
-
-	<ion-card>
-		<button ion-button icon-left full clear color="secondary" *ngIf="isOwner()">
-			<ion-icon name="checkmark"></ion-icon>
-			Marcar como resolvida
-		</button>
 	</ion-card>
 
 	<ion-card *ngIf="reportMode">

@@ -6,6 +6,8 @@ import { Denuncia } from '../../models/Denuncia';
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
 import { AngularFirestore } from 'angularfire2/firestore';
 import * as firebase from "firebase/app";
+import { ImagePicker } from '@ionic-native/image-picker';
+import { Camera, CameraOptions } from '@ionic-native/camera';
 
 /**
  * Generated class for the NovaDenunciaPage page.
@@ -29,7 +31,7 @@ export class NovaDenunciaPage {
   params: any;
   reportLocation: any = null;
   denuncia: Denuncia = {};
-  img: File|null = null;
+  img: any|null = null;
 
   constructor(
     public navCtrl: NavController,
@@ -37,7 +39,9 @@ export class NovaDenunciaPage {
     public alertCtrl: AlertController,
     public angFire: AngularFirestore,
     public auth: AuthenticationProvider,
-    public fire: FirestoreProvider
+    public fire: FirestoreProvider,
+    public imagePicker: ImagePicker,
+    public camera: Camera
   ) {
     this.reportLocation = this.navParams.get('reportLocation');
     this.mapa = MapPage;
@@ -140,5 +144,50 @@ export class NovaDenunciaPage {
 				this.img = event.target.files[0];
 			}
 		}
-	}
+  }
+  openGallery() {
+    const options: CameraOptions = {
+      quality: 70,
+      destinationType: this.camera.DestinationType.DATA_URL,
+      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+      saveToPhotoAlbum: false
+    };
+    this.camera.getPicture(options).then((imageData) => {
+      var url = 'data:image/jpeg;base64,' + imageData;
+      this.createImage(url);
+    }, (err) => {
+      console.log(err);
+    });
+  }
+  
+  b64toBlob(b64Data, contentType) {
+    contentType = contentType || '';
+    var sliceSize = 512;
+
+    var byteCharacters = atob(b64Data);
+    var byteArrays = [];
+
+    for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+        var slice = byteCharacters.slice(offset, offset + sliceSize);
+
+        var byteNumbers = new Array(slice.length);
+        for (var i = 0; i < slice.length; i++) {
+            byteNumbers[i] = slice.charCodeAt(i);
+        }
+
+        var byteArray = new Uint8Array(byteNumbers);
+
+        byteArrays.push(byteArray);
+    }
+    var blob = new Blob(byteArrays, {type: contentType});
+    return blob;
+  }
+
+  createImage(url) {
+    var block = url.split(";");
+    var contentType = block[0].split(":")[1];
+    var realData = block[1].split(",")[1];
+    var blob = this.b64toBlob(realData, contentType);
+    this.img = blob;
+  }
 }

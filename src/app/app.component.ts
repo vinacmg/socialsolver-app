@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Platform } from 'ionic-angular';
+import { Platform, Events } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -16,9 +16,15 @@ export class MyApp {
   mapPage: any = MapPage;
   userFeedPage: any = UserFeedPage;
   novaDenunciaPage: any = NovaDenunciaPage;
+  logged: boolean = false;
 
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
+  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, events: Events) {
     this.rootPage = LoginPage;
+
+    events.subscribe('logged', () => {
+      this.logged = true;
+    });
+
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AlertController, IonicPage, NavController, NavParams } from 'ionic-angular';
+import { AlertController, IonicPage, NavController, NavParams, Events } from 'ionic-angular';
 import { RegisterUserPage } from '../register-user/register-user';
 import { UserFeedPage } from "../user-feed/user-feed";
 import { AuthenticationProvider } from "../../providers/authentication/authentication";
@@ -27,7 +27,8 @@ export class LoginPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     public alertCtrl: AlertController,
-    public auth: AuthenticationProvider
+    public auth: AuthenticationProvider,
+    public events: Events
   ) {}
 
   ionViewDidLoad() {
@@ -40,6 +41,7 @@ export class LoginPage {
     var that = this;
     this.auth.login(this.login.email, this.login.senha)
       .then(() => {
+        that.events.publish('logged');
         that.navCtrl.setRoot(UserFeedPage);
       })
       .catch((erro) => {
